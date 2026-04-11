@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book time with Sean · Sector Growth</title>
+  <meta name="description" content="Book a meeting with Sean, HubSpot Architect &amp; HubSpot Certified Trainer at Sector Growth.">
+  <meta name="theme-color" content="#0A1628">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Book time with Sean · Sector Growth">
+  <meta property="og:description" content="HubSpot Architect &amp; HubSpot Certified Trainer at Sector Growth.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://book.sectorgrowth.com/sean">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../assets/favicon.png">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  
+
+  <!-- Our styles -->
+  <link rel="stylesheet" href="../assets/styles.css">
+
+  <!-- Per-person accent color override -->
+  <style>:root { --accent-cyan: #6BCFEE; }</style>
+</head>
+<body>
+
+  <!-- Ambient layers (purely decorative) -->
+  <div class="ambient">
+    <div class="ambient__mesh" aria-hidden="true"></div>
+    <div class="ambient__grid" aria-hidden="true"></div>
+    <div class="ambient__orb" aria-hidden="true"></div>
+    <div class="ambient__aura" aria-hidden="true"></div>
+    <div class="ambient__grain" aria-hidden="true"></div>
+  </div>
+
+  <header class="site-header">
+    <a class="site-header__logo" href="https://sectorgrowth.com" target="_blank" rel="noopener" aria-label="Sector Growth">
+      <img src="../assets/logo.webp" alt="Sector Growth" width="180" height="48">
+    </a>
+    <a class="site-header__link" href="https://sectorgrowth.com" target="_blank" rel="noopener">
+      sectorgrowth.com <span aria-hidden="true">↗</span>
+    </a>
+  </header>
+
+  <main class="hero">
+    <figure class="hero__avatar" aria-hidden="true">
+      <img src="../assets/photos/sean.png" alt="" width="96" height="96" loading="eager" decoding="async">
+    </figure>
+    <p class="hero__eyebrow">HUBSPOT ARCHITECT &AMP; HUBSPOT CERTIFIED TRAINER</p>
+    <h1 class="hero__headline">Book time with Sean.</h1>
+    <p class="hero__sub">Let's talk HubSpot strategy, architecture, or training.</p>
+
+    <section class="cards cards--single" aria-label="Booking options">
+      <button type="button" class="card card--primary" data-booking-id="session" data-provider="hubspot" data-hover-class="is-hovering-primary">
+        <span class="card__icon" aria-hidden="true"><svg viewBox="0 0 48 48" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="10" width="36" height="32" rx="3"/><path d="M6 20 H42"/><path d="M16 6 V14"/><path d="M32 6 V14"/><circle cx="24" cy="32" r="4"/></svg></span>
+        <span class="card__eyebrow">SESSION</span>
+        <span class="card__title">Book a session with Sean</span>
+        <span class="card__sub">HubSpot architecture, strategy, and training — tailored to your needs.</span>
+        <span class="card__cta">
+          Book a session
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12 H19 M13 6 L19 12 L13 18"/></svg>
+        </span>
+      </button>
+    </section>
+
+
+  </main>
+
+  <footer class="site-footer">
+    <p>Powered by HubSpot &nbsp;·&nbsp; Sector Growth &copy; 2026</p>
+  </footer>
+
+  <div class="modal" id="modal-session" aria-hidden="true">
+    <div class="modal__backdrop"></div>
+    <div class="modal__content">
+      <button class="modal__close" aria-label="Close">&times;</button>
+      <div class="meetings-iframe-container" data-src="https://meetings.hubspot.com/sean-sectorgrowth/session?embed=true"></div>
+    </div>
+  </div>
+
+  <script>
+    var BOOKING_CONFIG = {
+  "slug": "sean",
+  "name": "Sean",
+  "bookings": [
+    {
+      "provider": "hubspot",
+      "duration": "session",
+      "label": "Book a session with Sean",
+      "description": "HubSpot architecture, strategy, and training — tailored to your needs.",
+      "ctaLabel": "Book a session",
+      "url": "https://meetings.hubspot.com/sean-sectorgrowth/session",
+      "embedUrl": "https://meetings.hubspot.com/sean-sectorgrowth/session?embed=true",
+      "icon": "calendar"
+    }
+  ]
+};
+  </script>
+  <script type="text/javascript" src="https://static.hsappstatic.net/MeetingsEmbed/ex/MeetingsEmbedCode.js"></script>
+  <script src="../assets/app.js" defer></script>
+</body>
+</html>

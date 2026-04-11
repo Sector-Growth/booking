@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book a meeting · Sector Growth</title>
+  <meta name="theme-color" content="#0A1628">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg: #0A1628; --text: #F5F7FA; --muted: #94A3B8; --border: rgba(255,255,255,0.08); }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Inter", system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px; }
+    h1 { font-family: "Space Grotesk", system-ui, sans-serif; font-size: 28px; margin-bottom: 32px; }
+    .team { display: flex; flex-direction: column; gap: 16px; width: 100%; max-width: 480px; }
+    .team-card { display: flex; align-items: center; gap: 16px; padding: 16px 20px; border: 1px solid var(--border); border-radius: 14px; text-decoration: none; color: inherit; transition: border-color 200ms, background 200ms, transform 200ms; }
+    .team-card:hover { border-color: rgba(107,207,238,0.4); background: rgba(107,207,238,0.04); transform: translateY(-2px); }
+    .team-card img { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; }
+    .team-card strong { display: block; font-size: 16px; }
+    .team-card span { font-size: 13px; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <h1>Book a meeting</h1>
+  <div class="team">
+      <a href="prash/" class="team-card">
+        <img src="assets/photos/prash.png" alt="" width="64" height="64">
+        <div>
+          <strong>Prash</strong>
+          <span>Lead of Technical Integrations &amp; AI Solutions</span>
+        </div>
+      </a>
+      <a href="sean/" class="team-card">
+        <img src="assets/photos/sean.png" alt="" width="64" height="64">
+        <div>
+          <strong>Sean</strong>
+          <span>HubSpot Architect &amp; HubSpot Certified Trainer</span>
+        </div>
+      </a>
+  </div>
+</body>
+</html>

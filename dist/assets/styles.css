@@ -1,0 +1,1044 @@
+/* ============================================================
+   Sector Growth · Booking Platform
+   Config-driven booking pages — all styles in one file.
+   Sections:
+     1. Design tokens
+     2. Base reset
+     3. Typography
+     4. Layout (header, hero, cards, footer)
+     5. Ambient layer (mesh, grid, orb, grain)
+     6. Animations (entry, hover, interactive)
+     7. Responsive
+     8. Reduced motion
+   ============================================================ */
+
+/* ---------- 1. Design tokens ---------- */
+:root {
+  --bg-deep: #0A1628;
+  --bg-darker: #050B16;
+
+  --accent-cyan: #6BCFEE;
+  --accent-mid:  #2A85C4;
+  --accent-deep: #1E4DA8;
+
+  --text-primary: #F5F7FA;
+  --text-muted:   #94A3B8;
+
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+
+  --radius-card: 20px;
+  --radius-sm: 8px;
+
+  --shadow-soft: 0 24px 60px -20px rgba(0, 0, 0, 0.6);
+
+  --font-display: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --max-width: 1200px;
+  --gutter: clamp(20px, 4vw, 48px);
+}
+
+/* ---------- 2. Base reset ---------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ---------- 3. Typography & body ---------- */
+body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--text-primary);
+  background: var(--bg-darker);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ---------- 4. Layout ---------- */
+
+/* Header */
+.site-header {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: clamp(16px, 2.5vw, 28px) var(--gutter);
+  max-width: var(--max-width);
+  margin: 0 auto;
+  width: 100%;
+}
+
+.site-header__logo img {
+  /* Logo wordmark is black on a white background; the leaf is cyan/blue.
+     invert(1) flips lightness (black→white, white→transparent-ish via the
+     surrounding raster), but also flips hues. hue-rotate(180deg) flips
+     hues back so the cyan/blue leaf stays its original color. */
+  filter: invert(1) hue-rotate(180deg) brightness(1.05);
+  height: 40px;
+  width: auto;
+}
+
+.site-header__link {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  padding: 8px 14px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 999px;
+  transition: color 200ms ease, border-color 200ms ease, background 200ms ease;
+}
+
+.site-header__link:hover {
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* Hero */
+.hero {
+  position: relative;
+  z-index: 2;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: clamp(28px, 4vh, 64px) var(--gutter) clamp(20px, 2.5vh, 40px);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero__avatar {
+  margin: 0 0 18px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  padding: 4px;
+  background: #FFFFFF;
+  box-shadow:
+    0 0 0 1.5px rgba(107, 207, 238, 0.6),
+    0 20px 48px -16px rgba(10, 22, 40, 0.7),
+    0 0 72px -12px rgba(107, 207, 238, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.hero__avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.hero__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  color: var(--accent-cyan);
+  margin-bottom: 20px;
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 16px;
+  border: 1px solid rgba(107, 207, 238, 0.25);
+  border-radius: 999px;
+  background: rgba(107, 207, 238, 0.05);
+}
+
+.hero__headline {
+  font-family: var(--font-display);
+  font-size: clamp(38px, 5.8vw, 72px);
+  font-weight: 600;
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  margin-bottom: 18px;
+  background: linear-gradient(180deg, #FFFFFF 0%, #C8D6E5 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero__sub {
+  font-size: clamp(16px, 1.6vw, 19px);
+  color: var(--text-muted);
+  max-width: 560px;
+  margin: 0 auto 40px;
+  line-height: 1.55;
+}
+
+/* Cards */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  width: 100%;
+  /* Must match .email-panel max-width so outer bounds align. */
+  max-width: 744px;
+  margin: 0 auto;
+}
+
+.cards--single {
+  grid-template-columns: 1fr;
+  max-width: 400px;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 26px 26px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.015) 100%);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  text-align: left;
+  color: var(--text-primary);
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    transform 320ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 320ms ease,
+    background 320ms ease,
+    box-shadow 320ms ease;
+}
+
+.card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  margin-bottom: 8px;
+  transition: transform 400ms cubic-bezier(0.2, 0.8, 0.2, 1), background 320ms ease, border-color 320ms ease;
+}
+
+.card--30 .card__icon { color: var(--accent-cyan); }
+.card--60 .card__icon { color: var(--accent-cyan); /* will be deep blue glow on hover */ }
+
+.card__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  color: var(--text-muted);
+}
+
+.card--30 .card__eyebrow { color: var(--accent-cyan); }
+.card--60 .card__eyebrow { color: #5C9FE8; }
+.card--primary .card__icon { color: var(--accent-cyan); }
+.card--primary .card__eyebrow { color: #5C9FE8; }
+
+.card__title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.card__sub {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.5;
+  flex-grow: 1;
+}
+
+.card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 12px 18px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  transition: background 320ms ease, border-color 320ms ease, color 320ms ease, transform 320ms ease;
+}
+
+.card--30 .card__cta { color: var(--accent-cyan); }
+.card--60 .card__cta { color: #7BB1F0; }
+.card--primary .card__cta { color: #7BB1F0; }
+
+/* Secondary email panel — subordinate to the two booking cards.
+   max-width matches the rendered cards grid: 2 * 360px + 24px gap = 744px,
+   so the panel aligns flush with the cards above it. */
+.email-panel {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  width: 100%;
+  max-width: 744px;
+  margin: 18px auto 0;
+  padding: 16px 20px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.025) 0%, rgba(255, 255, 255, 0.008) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 260ms ease, background 260ms ease, transform 260ms ease, box-shadow 260ms ease;
+}
+
+.email-panel:hover {
+  border-color: rgba(107, 207, 238, 0.4);
+  background: linear-gradient(180deg, rgba(107, 207, 238, 0.06) 0%, rgba(107, 207, 238, 0.015) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 36px -18px rgba(107, 207, 238, 0.35);
+}
+
+.email-panel:focus-visible {
+  outline: 2px solid var(--accent-cyan);
+  outline-offset: 3px;
+}
+
+.email-panel__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(107, 207, 238, 0.08);
+  color: var(--accent-cyan);
+  flex-shrink: 0;
+  transition: background 260ms ease;
+}
+
+.email-panel:hover .email-panel__icon {
+  background: rgba(107, 207, 238, 0.14);
+}
+
+.email-panel__body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+  text-align: left;
+  min-width: 0;
+}
+
+.email-panel__title {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.email-panel__sub {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+.email-panel__sub strong {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.email-panel__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--accent-cyan);
+  flex-shrink: 0;
+}
+
+.email-panel__cta svg {
+  transition: transform 260ms ease;
+}
+
+.email-panel:hover .email-panel__cta svg {
+  transform: translateX(3px);
+}
+
+/* HubSpot meeting modal — custom overlay that wraps the HubSpot iframe embed.
+   Hidden by default via aria-hidden; shown when the booking card is clicked. */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 200ms ease-out, visibility 200ms ease-out;
+}
+
+.modal[aria-hidden="false"] {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 22, 40, 0.85);
+  cursor: pointer;
+}
+
+.modal__content {
+  position: relative;
+  width: min(600px, 92vw);
+  height: 80vh;
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  transform: scale(0.95);
+  transition: transform 200ms ease-out;
+  box-shadow:
+    0 32px 80px -20px rgba(0, 0, 0, 0.7),
+    0 0 120px -30px rgba(107, 207, 238, 0.3);
+}
+
+.modal[aria-hidden="false"] .modal__content {
+  transform: scale(1);
+}
+
+.modal__close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 10;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  color: #ffffff;
+  border: none;
+  border-radius: 50%;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 200ms ease;
+}
+
+.modal__close:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.modal .meetings-iframe-container {
+  width: 100%;
+  height: 100%;
+}
+
+.modal .meetings-iframe-container iframe {
+  width: 100% !important;
+  height: 100% !important;
+  border: none !important;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+/* Footer */
+.site-footer {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 20px var(--gutter) 16px;
+  color: var(--text-muted);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  font-family: var(--font-mono);
+}
+
+/* ---------- 5. Ambient layer ---------- */
+
+.ambient {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Gradient mesh — three large drifting radial gradients in brand colors */
+.ambient__mesh {
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(60% 50% at 20% 30%, rgba(107, 207, 238, 0.18) 0%, transparent 60%),
+    radial-gradient(50% 50% at 80% 20%, rgba(42, 133, 196, 0.20) 0%, transparent 65%),
+    radial-gradient(60% 60% at 60% 80%, rgba(30, 77, 168, 0.30) 0%, transparent 60%),
+    radial-gradient(40% 50% at 10% 90%, rgba(107, 207, 238, 0.10) 0%, transparent 60%);
+  filter: blur(40px);
+  animation: meshDrift 28s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@keyframes meshDrift {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  50%  { transform: translate3d(-2%, 1%, 0) scale(1.05); }
+  100% { transform: translate3d(2%, -2%, 0) scale(1.02); }
+}
+
+/* Technical grid overlay */
+.ambient__grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+}
+
+/* Orbiting glow orb behind hero */
+.ambient__orb {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  width: 520px;
+  height: 520px;
+  margin-left: -260px;
+  margin-top: -260px;
+  background: radial-gradient(circle, rgba(107, 207, 238, 0.18) 0%, rgba(42, 133, 196, 0.08) 35%, transparent 70%);
+  filter: blur(20px);
+  border-radius: 50%;
+  animation: orbDrift 32s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes orbDrift {
+  0%   { transform: translate(0, 0); }
+  25%  { transform: translate(8%, -4%); }
+  50%  { transform: translate(-6%, 6%); }
+  75%  { transform: translate(4%, 4%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* Reactive aura — transparent by default, activated by body state classes
+   when the user hovers a booking card or the email panel. Gives each panel
+   its own mood: subtle cyan for 30 min, dramatic deep-blue for 1 hour,
+   serene warm gold for email. */
+.ambient__aura {
+  position: absolute;
+  inset: -10%;
+  opacity: 0;
+  background: transparent;
+  pointer-events: none;
+  transform: scale(0.95);
+  transition:
+    opacity 900ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    transform 1200ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    background 900ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Existing ambient layers transition smoothly between rest and hover states */
+.ambient__mesh,
+.ambient__orb,
+.ambient__grid {
+  transition:
+    filter 900ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 900ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* ===========================================================================
+   Panel hover → page-level mood
+   =========================================================================== */
+
+/* --- 30 MIN: gentle cyan breath (subtle) --- */
+body.is-hovering-30 .ambient__mesh {
+  filter: blur(40px) brightness(1.12) saturate(1.12);
+}
+body.is-hovering-30 .ambient__orb {
+  filter: blur(20px) brightness(1.25) saturate(1.15);
+}
+body.is-hovering-30 .ambient__aura {
+  opacity: 0.6;
+  transform: scale(1.02);
+  background:
+    radial-gradient(
+      ellipse 60% 55% at 30% 70%,
+      rgba(107, 207, 238, 0.22) 0%,
+      transparent 65%
+    );
+}
+
+/* --- 1 HOUR: dramatic deep-blue surge (wow) --- */
+body.is-hovering-60 .ambient__mesh {
+  filter: blur(38px) brightness(1.4) saturate(1.45) hue-rotate(-8deg);
+}
+body.is-hovering-60 .ambient__orb {
+  filter: blur(24px) brightness(1.7) saturate(1.35);
+  opacity: 1;
+}
+body.is-hovering-60 .ambient__grid {
+  /* Grid "comes alive" — lines brighten, mask opens wider */
+  background-image:
+    linear-gradient(to right, rgba(123, 177, 240, 0.085) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(123, 177, 240, 0.085) 1px, transparent 1px);
+  mask-image: radial-gradient(ellipse at center, black 55%, transparent 95%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 55%, transparent 95%);
+}
+body.is-hovering-60 .ambient__aura {
+  opacity: 1;
+  transform: scale(1.12);
+  background:
+    radial-gradient(
+      ellipse 90% 70% at 70% 55%,
+      rgba(30, 77, 168, 0.38) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      circle at 50% 45%,
+      rgba(42, 133, 196, 0.22) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 100% 60% at 20% 30%,
+      rgba(107, 207, 238, 0.14) 0%,
+      transparent 60%
+    );
+}
+
+/* --- PRIMARY (single card): same dramatic effect as 1 hour --- */
+body.is-hovering-primary .ambient__mesh {
+  filter: blur(38px) brightness(1.4) saturate(1.45) hue-rotate(-8deg);
+}
+body.is-hovering-primary .ambient__orb {
+  filter: blur(24px) brightness(1.7) saturate(1.35);
+  opacity: 1;
+}
+body.is-hovering-primary .ambient__grid {
+  background-image:
+    linear-gradient(to right, rgba(123, 177, 240, 0.085) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(123, 177, 240, 0.085) 1px, transparent 1px);
+  mask-image: radial-gradient(ellipse at center, black 55%, transparent 95%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 55%, transparent 95%);
+}
+body.is-hovering-primary .ambient__aura {
+  opacity: 1;
+  transform: scale(1.12);
+  background:
+    radial-gradient(
+      ellipse 90% 70% at 70% 55%,
+      rgba(30, 77, 168, 0.38) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      circle at 50% 45%,
+      rgba(42, 133, 196, 0.22) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 100% 60% at 20% 30%,
+      rgba(107, 207, 238, 0.14) 0%,
+      transparent 60%
+    );
+}
+
+/* --- EMAIL: serene warm gold, different character --- */
+body.is-hovering-email .ambient__mesh {
+  filter: blur(44px) brightness(0.88) saturate(0.7);
+}
+body.is-hovering-email .ambient__orb {
+  filter: blur(28px) brightness(0.72) saturate(0.5);
+  opacity: 0.85;
+}
+body.is-hovering-email .ambient__aura {
+  opacity: 0.75;
+  transform: scale(1.04);
+  /* Warm amber horizontal streak — inviting, personal, unlike the cyan/navy
+     booking mood. Evokes a soft envelope glow. */
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 196, 130, 0.06) 25%,
+      rgba(255, 214, 158, 0.16) 50%,
+      rgba(255, 196, 130, 0.06) 75%,
+      transparent 100%
+    ),
+    radial-gradient(
+      ellipse 75% 45% at 50% 100%,
+      rgba(255, 200, 140, 0.2) 0%,
+      transparent 65%
+    );
+}
+
+/* Subtle SVG grain overlay (data URI to keep it self-contained) */
+.ambient__grain {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.6 0'/></filter><rect width='300' height='300' filter='url(%23n)' opacity='0.4'/></svg>");
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+}
+
+/* Make sure body has the deep gradient base under the ambient layer */
+body {
+  background:
+    radial-gradient(ellipse at top, #0F1F38 0%, var(--bg-deep) 40%, var(--bg-darker) 100%);
+  background-attachment: fixed;
+}
+
+/* ---------- 6. Animations (entry + interactive) ---------- */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cardArrival {
+  0% {
+    opacity: 0;
+    transform: translateY(28px) rotate(-1.5deg);
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotate(0);
+  }
+}
+
+/* Stagger entry */
+.site-header__logo,
+.site-header__link,
+.hero__avatar,
+.hero__eyebrow,
+.hero__headline,
+.hero__sub,
+.card,
+.email-panel,
+.site-footer {
+  opacity: 0;
+  animation: fadeUp 800ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.site-header__logo  { animation-delay: 50ms; }
+.site-header__link  { animation-delay: 150ms; }
+.hero__avatar       { animation-delay: 200ms; }
+.hero__eyebrow      { animation-delay: 300ms; }
+.hero__headline     { animation-delay: 400ms; }
+.hero__sub          { animation-delay: 550ms; }
+.card--30 {
+  animation: cardArrival 900ms cubic-bezier(0.2, 0.8, 0.2, 1) 700ms forwards;
+}
+.card--60 {
+  animation: cardArrival 900ms cubic-bezier(0.2, 0.8, 0.2, 1) 850ms forwards;
+}
+.card--primary {
+  animation: cardArrival 900ms cubic-bezier(0.2, 0.8, 0.2, 1) 700ms forwards;
+}
+.email-panel { animation-delay: 1000ms; }
+.site-footer { animation-delay: 1150ms; }
+
+/* Card hover — lift, glow, icon micro-animation, gradient border shimmer */
+.card::before {
+  /* Animated conic-gradient border shimmer (ring around the card) */
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--shimmer-angle, 0deg),
+    transparent 0deg,
+    var(--shimmer-color, rgba(107, 207, 238, 0.6)) 90deg,
+    transparent 180deg,
+    transparent 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 320ms ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.card--30 { --shimmer-color: rgba(107, 207, 238, 0.7); }
+.card--60 { --shimmer-color: rgba(91, 159, 232, 0.7); }
+.card--primary { --shimmer-color: rgba(91, 159, 232, 0.7); }
+
+@property --shimmer-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes shimmerSpin {
+  to { --shimmer-angle: 360deg; }
+}
+
+.card:hover,
+.card:focus-visible {
+  transform: translateY(-6px);
+  background: linear-gradient(180deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+.card--30:hover,
+.card--30:focus-visible {
+  box-shadow:
+    var(--shadow-soft),
+    0 0 0 1px rgba(107, 207, 238, 0.18),
+    0 24px 80px -16px rgba(107, 207, 238, 0.35);
+}
+
+.card--60:hover,
+.card--60:focus-visible {
+  box-shadow:
+    var(--shadow-soft),
+    0 0 0 1px rgba(91, 159, 232, 0.18),
+    0 24px 80px -16px rgba(30, 77, 168, 0.50);
+}
+
+.card--primary:hover,
+.card--primary:focus-visible {
+  box-shadow:
+    var(--shadow-soft),
+    0 0 0 1px rgba(91, 159, 232, 0.18),
+    0 24px 80px -16px rgba(30, 77, 168, 0.50);
+}
+
+.card:hover::before,
+.card:focus-visible::before {
+  opacity: 1;
+  animation: shimmerSpin 4s linear infinite;
+}
+
+.card:hover .card__icon,
+.card:focus-visible .card__icon {
+  transform: scale(1.08) rotate(-6deg);
+  background: rgba(107, 207, 238, 0.10);
+  border-color: rgba(107, 207, 238, 0.30);
+}
+
+.card--60:hover .card__icon,
+.card--60:focus-visible .card__icon {
+  background: rgba(91, 159, 232, 0.10);
+  border-color: rgba(91, 159, 232, 0.30);
+  color: #7BB1F0;
+}
+
+.card--primary:hover .card__icon,
+.card--primary:focus-visible .card__icon {
+  background: rgba(91, 159, 232, 0.10);
+  border-color: rgba(91, 159, 232, 0.30);
+  color: #7BB1F0;
+}
+
+.card:hover .card__cta,
+.card:focus-visible .card__cta {
+  background: rgba(255, 255, 255, 0.10);
+  border-color: var(--border-strong);
+  transform: translateX(2px);
+}
+
+.card:active {
+  transform: translateY(-4px) scale(0.99);
+}
+
+/* Visible focus ring for keyboard nav */
+.card:focus-visible {
+  outline: 2px solid var(--accent-cyan);
+  outline-offset: 4px;
+}
+
+.card--60:focus-visible {
+  outline-color: #7BB1F0;
+}
+
+.card--primary:focus-visible {
+  outline-color: #7BB1F0;
+}
+
+/* Google scheduling button mount points — kept in the DOM so the Google
+   script has somewhere to "target", but positioned off-screen so they're
+   never visible. */
+.g-mount {
+  position: fixed !important;
+  left: -10000px !important;
+  top: -10000px !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+}
+
+/* Google's scheduling-button script appends its rendered buttons directly
+   to <body> (not into our target containers), so we hide them globally.
+   Our custom cards delegate their click to these buttons via JS. */
+button.qxCTlb {
+  position: fixed !important;
+  left: -10000px !important;
+  top: -10000px !important;
+  width: 1px !important;
+  height: 1px !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  clip: rect(0 0 0 0) !important;
+}
+
+/* ---------- 7. Responsive ---------- */
+
+@media (max-width: 720px) {
+  .site-header {
+    padding: 20px;
+  }
+  .site-header__logo img {
+    height: 32px;
+  }
+  .site-header__link {
+    font-size: 11px;
+    padding: 6px 12px;
+  }
+
+  .hero {
+    padding-top: 32px;
+  }
+  .hero__sub {
+    margin-bottom: 40px;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+    max-width: 420px;
+    gap: 16px;
+  }
+
+  .cards--single {
+    max-width: 420px;
+  }
+
+  .modal__content {
+    height: 85vh;
+    width: 96vw;
+    border-radius: 12px;
+  }
+
+  .card {
+    padding: 26px 22px;
+  }
+
+  .card__icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .email-panel {
+    max-width: 420px;
+    gap: 14px;
+    padding: 14px 16px;
+  }
+  /* Collapse the CTA label on narrow screens; keep the arrow. */
+  .email-panel__cta {
+    gap: 0;
+    font-size: 0;
+  }
+  .email-panel__cta svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .ambient__orb {
+    width: 360px;
+    height: 360px;
+    margin-left: -180px;
+    margin-top: -180px;
+  }
+}
+
+@media (max-width: 420px) {
+  .hero__headline {
+    font-size: clamp(34px, 11vw, 48px);
+  }
+}
+
+/* ---------- 8. Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .ambient__mesh,
+  .ambient__orb {
+    animation: none !important;
+  }
+
+  .site-header__logo,
+  .site-header__link,
+  .hero__avatar,
+  .hero__eyebrow,
+  .hero__headline,
+  .hero__sub,
+  .card,
+  .email-panel,
+  .site-footer {
+    opacity: 1;
+  }
+
+  .card:hover {
+    transform: none;
+  }
+}
