@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book time with {{name}} · Sector Growth</title>
+  <meta name="description" content="Book a meeting with {{name}}, {{title}} at Sector Growth.">
+  <meta name="theme-color" content="#0A1628">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Book time with {{name}} · Sector Growth">
+  <meta property="og:description" content="{{title}} at Sector Growth.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://book.sectorgrowth.com/{{slug}}">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../assets/favicon.png">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  {{providerStyles}}
+
+  <!-- Our styles -->
+  <link rel="stylesheet" href="../assets/styles.css">
+
+  <!-- Per-person accent color override -->
+  <style>:root { --accent-cyan: {{accentColor}}; }</style>
+</head>
+<body>
+
+  <!-- Ambient layers (purely decorative) -->
+  <div class="ambient">
+    <div class="ambient__mesh" aria-hidden="true"></div>
+    <div class="ambient__grid" aria-hidden="true"></div>
+    <div class="ambient__orb" aria-hidden="true"></div>
+    <div class="ambient__aura" aria-hidden="true"></div>
+    <div class="ambient__grain" aria-hidden="true"></div>
+  </div>
+
+  <header class="site-header">
+    <a class="site-header__logo" href="https://sectorgrowth.com" target="_blank" rel="noopener" aria-label="Sector Growth">
+      <img src="../assets/logo.webp" alt="Sector Growth" width="180" height="48">
+    </a>
+    <a class="site-header__link" href="https://sectorgrowth.com" target="_blank" rel="noopener">
+      sectorgrowth.com <span aria-hidden="true">↗</span>
+    </a>
+  </header>
+
+  <main class="hero">
+    <figure class="hero__avatar" aria-hidden="true">
+      <img src="../assets/{{photo}}" alt="" width="96" height="96" loading="eager" decoding="async">
+    </figure>
+    <p class="hero__eyebrow">{{titleUpper}}</p>
+    <h1 class="hero__headline">Book time with {{name}}.</h1>
+    <p class="hero__sub">{{tagline}}</p>
+
+    <section class="cards {{cardsClass}}" aria-label="Booking options">
+{{bookingCards}}
+    </section>
+
+{{emailPanel}}
+  </main>
+
+  <footer class="site-footer">
+    <p>Powered by {{footerProvider}} &nbsp;·&nbsp; Sector Growth &copy; 2026</p>
+  </footer>
+
+{{providerMounts}}
+
+  <script>
+    var BOOKING_CONFIG = {{bookingConfig}};
+  </script>
+{{providerScripts}}
+  <script src="../assets/app.js" defer></script>
+</body>
+</html>
