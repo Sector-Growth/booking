@@ -1,0 +1,9 @@
+{
+  "name": "sector-growth-booking",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Config-driven booking pages for Sector Growth team members",
+  "scripts": {
+    "build": "node build.js"
+  }
+}
