@@ -1,0 +1,56 @@
+[
+  {
+    "slug": "prash",
+    "name": "Prash",
+    "title": "Lead of Technical Integrations & AI Solutions",
+    "tagline": "Let's talk integrations, automation, or AI solutions.",
+    "photo": "photos/prash.png",
+    "accentColor": "#6BCFEE",
+    "email": "prash@sectorgrowth.ca",
+    "bookings": [
+      {
+        "provider": "google",
+        "duration": "30",
+        "label": "Quick intro & scoping",
+        "description": "A focused introduction to your needs and what we can do.",
+        "ctaLabel": "Book 30 minutes",
+        "url": "https://calendar.google.com/calendar/appointments/schedules/AcZssZ0m0M0S4JliJAhghnQLoLfmvDF7cC9kn9z6c0exWUnWYW0nGc-KUuNGvhrpUdjGQreI-pqwx53I?gv=true",
+        "buttonLabel": "Book 30 Minutes",
+        "buttonColor": "#6BCFEE",
+        "icon": "clock"
+      },
+      {
+        "provider": "google",
+        "duration": "60",
+        "label": "Deep-dive technical discussion",
+        "description": "Architecture, integrations, AI workflows — bring your toughest problems.",
+        "ctaLabel": "Book 1 hour",
+        "url": "https://calendar.google.com/calendar/appointments/schedules/AcZssZ0vh4_WAF3rzjlTfbHfqbQWYOBucgDK210ykdULWqg_-sFLlVf1rF4TgZXN5yHg8HJG23iHH5N-?gv=true",
+        "buttonLabel": "Book 1 hour with Prash",
+        "buttonColor": "#1E4DA8",
+        "icon": "layers"
+      }
+    ]
+  },
+  {
+    "slug": "sean",
+    "name": "Sean",
+    "title": "HubSpot Architect & HubSpot Certified Trainer",
+    "tagline": "Let's talk HubSpot strategy, architecture, or training.",
+    "photo": "photos/sean.png",
+    "accentColor": "#6BCFEE",
+    "email": null,
+    "bookings": [
+      {
+        "provider": "hubspot",
+        "duration": "session",
+        "label": "Book a session with Sean",
+        "description": "HubSpot architecture, strategy, and training — tailored to your needs.",
+        "ctaLabel": "Book a session",
+        "url": "https://meetings.hubspot.com/sean-sectorgrowth/session",
+        "embedUrl": "https://meetings.hubspot.com/sean-sectorgrowth/session?embed=true",
+        "icon": "calendar"
+      }
+    ]
+  }
+]
