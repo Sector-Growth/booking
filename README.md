@@ -21,6 +21,10 @@ cd docs && ruby -run -ehttpd . -p8766
 # Then open http://localhost:8766/prash/ or /sean/
 ```
 
+## The root page assigns the call
+
+https://book.sectorgrowth.com/ does not ask visitors to choose. Everyone in `team.json` with a `scoping` scheduler (`provider`, `url`) is in the rotation: a visitor is assigned at random, which splits calls evenly, and keeps the same person for 30 days (localStorage), and that person's calendar is embedded on the page. Add or remove someone from the rotation by adding or removing their `scoping` entry. The per-person pages (`/prash/`, `/sean/`) are unchanged. A HubSpot round-robin meeting link would replace this with availability-aware assignment; put it in as the only `scoping` entry when it exists.
+
 ## Adding a New Person
 
 1. Add an entry to `team.json` (see existing entries for the schema)

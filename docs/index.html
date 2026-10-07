@@ -3,42 +3,66 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Book a meeting · Sector Growth</title>
+  <title>Book a scoping call · Sector Growth</title>
+  <meta name="description" content="Book a scoping call with the Sector Growth team.">
   <meta name="theme-color" content="#0A1628">
   <link rel="icon" type="image/png" href="assets/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root { --bg: #0A1628; --text: #F5F7FA; --muted: #94A3B8; --border: rgba(255,255,255,0.08); }
+    :root { --bg: #0A1628; --text: #F5F7FA; --muted: #A9B6C8; --border: rgba(255,255,255,0.1); --sky: #60D0F0; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: "Inter", system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px; }
-    h1 { font-family: "Space Grotesk", system-ui, sans-serif; font-size: 28px; margin-bottom: 32px; }
-    .team { display: flex; flex-direction: column; gap: 16px; width: 100%; max-width: 480px; }
-    .team-card { display: flex; align-items: center; gap: 16px; padding: 16px 20px; border: 1px solid var(--border); border-radius: 14px; text-decoration: none; color: inherit; transition: border-color 200ms, background 200ms, transform 200ms; }
-    .team-card:hover { border-color: rgba(107,207,238,0.4); background: rgba(107,207,238,0.04); transform: translateY(-2px); }
-    .team-card img { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; }
-    .team-card strong { display: block; font-size: 16px; }
-    .team-card span { font-size: 13px; color: var(--muted); }
+    body { font-family: "Inter", system-ui, sans-serif; background: radial-gradient(1200px 600px at 50% -10%, #1050A0 0%, var(--bg) 60%); color: var(--text); min-height: 100vh; padding: 32px 16px 48px; }
+    .wrap { max-width: 760px; margin: 0 auto; }
+    .logo { display: block; width: 132px; height: auto; margin-bottom: 28px; }
+    h1 { font-family: "Space Grotesk", system-ui, sans-serif; font-size: clamp(26px, 4vw, 34px); line-height: 1.15; }
+    .lede { margin-top: 10px; color: var(--muted); font-size: 16px; line-height: 1.5; }
+    .who { display: flex; align-items: center; gap: 14px; margin: 24px 0 18px; min-height: 56px; }
+    .who img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 2px rgba(96,208,240,0.35); }
+    .who strong { display: block; font-size: 16px; }
+    .who span { font-size: 13.5px; color: var(--muted); }
+    .cal { background: #fff; border-radius: 18px; overflow: hidden; min-height: 680px; box-shadow: 0 30px 60px -30px rgba(0,0,0,0.6); }
+    .cal iframe { display: block; width: 100%; height: 760px; border: 0; }
+    noscript ul { margin-top: 20px; list-style: none; display: grid; gap: 10px; }
+    noscript a { color: var(--sky); font-weight: 600; }
   </style>
 </head>
 <body>
-  <h1>Book a meeting</h1>
-  <div class="team">
-      <a href="prash/" class="team-card">
-        <img src="assets/photos/prash.png" alt="" width="64" height="64">
-        <div>
-          <strong>Prash</strong>
-          <span>Lead of Technical Integrations &amp; AI Solutions</span>
-        </div>
-      </a>
-      <a href="sean/" class="team-card">
-        <img src="assets/photos/sean.png" alt="" width="64" height="64">
-        <div>
-          <strong>Sean</strong>
-          <span>HubSpot Architect &amp; HubSpot Certified Trainer</span>
-        </div>
-      </a>
-  </div>
+  <main class="wrap">
+    <img class="logo" src="assets/sector-logo-light.svg" alt="Sector Growth" width="132" height="36">
+    <h1>Book a scoping call</h1>
+    <p class="lede">Pick a time that suits. We match you with someone from the team.</p>
+    <div class="who" id="who" aria-live="polite"></div>
+    <div class="cal" id="cal"></div>
+    <noscript><ul>
+      <li><a href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ0m0M0S4JliJAhghnQLoLfmvDF7cC9kn9z6c0exWUnWYW0nGc-KUuNGvhrpUdjGQreI-pqwx53I">Book with Prash</a></li>
+      <li><a href="https://meetings.hubspot.com/sean-sectorgrowth/technical-scoping">Book with Sean</a></li>
+    </ul></noscript>
+  </main>
+  <script id="pool" type="application/json">[{"slug":"prash","name":"Prash","title":"Lead of Technical Integrations & AI Solutions","photo":"assets/photos/prash.png","provider":"google","url":"https://calendar.google.com/calendar/appointments/schedules/AcZssZ0m0M0S4JliJAhghnQLoLfmvDF7cC9kn9z6c0exWUnWYW0nGc-KUuNGvhrpUdjGQreI-pqwx53I?gv=true"},{"slug":"sean","name":"Sean","title":"HubSpot Architect & HubSpot Certified Trainer","photo":"assets/photos/sean.png","provider":"hubspot","url":"https://meetings.hubspot.com/sean-sectorgrowth/technical-scoping?embed=true"}]</script>
+  <script>
+  (function () {
+    var pool = JSON.parse(document.getElementById("pool").textContent);
+    if (!pool.length) return;
+    var KEY = "sg-book-assignee", DAYS = 30, pick = null;
+    try {
+      var saved = JSON.parse(localStorage.getItem(KEY) || "null");
+      if (saved && Date.now() - saved.at < DAYS * 864e5) pick = pool.filter(function (p) { return p.slug === saved.slug; })[0] || null;
+    } catch (e) {}
+    if (!pick) {
+      var r = new Uint32Array(1); (window.crypto || {}).getRandomValues ? crypto.getRandomValues(r) : (r[0] = Math.floor(Math.random() * 4294967296));
+      pick = pool[r[0] % pool.length];
+      try { localStorage.setItem(KEY, JSON.stringify({ slug: pick.slug, at: Date.now() })); } catch (e) {}
+    }
+    var who = document.getElementById("who");
+    var img = document.createElement("img"); img.src = pick.photo; img.alt = ""; img.width = 56; img.height = 56;
+    var box = document.createElement("div"); var b = document.createElement("strong"); b.textContent = "Your call is with " + pick.name;
+    var s = document.createElement("span"); s.textContent = pick.title; box.appendChild(b); box.appendChild(s);
+    who.appendChild(img); who.appendChild(box);
+    var f = document.createElement("iframe"); f.src = pick.url; f.title = "Book a scoping call with " + pick.name; f.loading = "eager";
+    document.getElementById("cal").appendChild(f);
+  })();
+  </script>
 </body>
 </html>

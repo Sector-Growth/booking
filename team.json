@@ -30,7 +30,11 @@
         "buttonColor": "#1E4DA8",
         "icon": "layers"
       }
-    ]
+    ],
+    "scoping": {
+      "provider": "google",
+      "url": "https://calendar.google.com/calendar/appointments/schedules/AcZssZ0m0M0S4JliJAhghnQLoLfmvDF7cC9kn9z6c0exWUnWYW0nGc-KUuNGvhrpUdjGQreI-pqwx53I?gv=true"
+    }
   },
   {
     "slug": "sean",
@@ -51,6 +55,10 @@
         "embedUrl": "https://meetings.hubspot.com/sean-sectorgrowth/session?embed=true",
         "icon": "calendar"
       }
-    ]
+    ],
+    "scoping": {
+      "provider": "hubspot",
+      "url": "https://meetings.hubspot.com/sean-sectorgrowth/technical-scoping?embed=true"
+    }
   }
 ]

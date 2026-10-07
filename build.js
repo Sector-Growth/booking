@@ -198,14 +198,15 @@ function buildBookingConfig(person) {
 // ---------------------------------------------------------------------------
 
 function buildRootPage(team) {
-  var links = team.map(function (p) {
-    return '      <a href="' + p.slug + '/" class="team-card">\n'
-      + '        <img src="assets/' + p.photo + '" alt="" width="64" height="64">\n'
-      + '        <div>\n'
-      + '          <strong>' + escapeHtml(p.name) + '</strong>\n'
-      + '          <span>' + escapeHtml(p.title) + '</span>\n'
-      + '        </div>\n'
-      + '      </a>';
+  // The root page assigns the call automatically (owner, 2026-10-07: "rather than asking visitors to choose").
+  // Everyone with a `scoping` scheduler is in the rotation; a visitor is assigned at random, which splits the calls
+  // evenly, and keeps the same person for 30 days so a reload never swaps them. The per-person pages stay as they are.
+  var pool = team.filter(function (p) { return p.scoping && p.scoping.url; }).map(function (p) {
+    return { slug: p.slug, name: p.name, title: p.title, photo: 'assets/photos/' + path.basename(p.photo), provider: p.scoping.provider, url: p.scoping.url };
+  });
+  var data = JSON.stringify(pool).replace(/</g, '\\u003c');
+  var fallback = pool.map(function (p) {
+    return '      <li><a href="' + escapeHtml(p.url.replace('?embed=true', '').replace('?gv=true', '')) + '">Book with ' + escapeHtml(p.name) + '</a></li>';
   }).join('\n');
 
   return '<!DOCTYPE html>\n'
@@ -213,30 +214,64 @@ function buildRootPage(team) {
     + '<head>\n'
     + '  <meta charset="UTF-8">\n'
     + '  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n'
-    + '  <title>Book a meeting · Sector Growth</title>\n'
+    + '  <title>Book a scoping call · Sector Growth</title>\n'
+    + '  <meta name="description" content="Book a scoping call with the Sector Growth team.">\n'
     + '  <meta name="theme-color" content="#0A1628">\n'
     + '  <link rel="icon" type="image/png" href="assets/favicon.png">\n'
     + '  <link rel="preconnect" href="https://fonts.googleapis.com">\n'
     + '  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'
     + '  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">\n'
     + '  <style>\n'
-    + '    :root { --bg: #0A1628; --text: #F5F7FA; --muted: #94A3B8; --border: rgba(255,255,255,0.08); }\n'
+    + '    :root { --bg: #0A1628; --text: #F5F7FA; --muted: #A9B6C8; --border: rgba(255,255,255,0.1); --sky: #60D0F0; }\n'
     + '    * { box-sizing: border-box; margin: 0; padding: 0; }\n'
-    + '    body { font-family: "Inter", system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px; }\n'
-    + '    h1 { font-family: "Space Grotesk", system-ui, sans-serif; font-size: 28px; margin-bottom: 32px; }\n'
-    + '    .team { display: flex; flex-direction: column; gap: 16px; width: 100%; max-width: 480px; }\n'
-    + '    .team-card { display: flex; align-items: center; gap: 16px; padding: 16px 20px; border: 1px solid var(--border); border-radius: 14px; text-decoration: none; color: inherit; transition: border-color 200ms, background 200ms, transform 200ms; }\n'
-    + '    .team-card:hover { border-color: rgba(107,207,238,0.4); background: rgba(107,207,238,0.04); transform: translateY(-2px); }\n'
-    + '    .team-card img { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; }\n'
-    + '    .team-card strong { display: block; font-size: 16px; }\n'
-    + '    .team-card span { font-size: 13px; color: var(--muted); }\n'
+    + '    body { font-family: "Inter", system-ui, sans-serif; background: radial-gradient(1200px 600px at 50% -10%, #1050A0 0%, var(--bg) 60%); color: var(--text); min-height: 100vh; padding: 32px 16px 48px; }\n'
+    + '    .wrap { max-width: 760px; margin: 0 auto; }\n'
+    + '    .logo { display: block; width: 132px; height: auto; margin-bottom: 28px; }\n'
+    + '    h1 { font-family: "Space Grotesk", system-ui, sans-serif; font-size: clamp(26px, 4vw, 34px); line-height: 1.15; }\n'
+    + '    .lede { margin-top: 10px; color: var(--muted); font-size: 16px; line-height: 1.5; }\n'
+    + '    .who { display: flex; align-items: center; gap: 14px; margin: 24px 0 18px; min-height: 56px; }\n'
+    + '    .who img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 2px rgba(96,208,240,0.35); }\n'
+    + '    .who strong { display: block; font-size: 16px; }\n'
+    + '    .who span { font-size: 13.5px; color: var(--muted); }\n'
+    + '    .cal { background: #fff; border-radius: 18px; overflow: hidden; min-height: 680px; box-shadow: 0 30px 60px -30px rgba(0,0,0,0.6); }\n'
+    + '    .cal iframe { display: block; width: 100%; height: 760px; border: 0; }\n'
+    + '    noscript ul { margin-top: 20px; list-style: none; display: grid; gap: 10px; }\n'
+    + '    noscript a { color: var(--sky); font-weight: 600; }\n'
     + '  </style>\n'
     + '</head>\n'
     + '<body>\n'
-    + '  <h1>Book a meeting</h1>\n'
-    + '  <div class="team">\n'
-    + links + '\n'
-    + '  </div>\n'
+    + '  <main class="wrap">\n'
+    + '    <img class="logo" src="assets/sector-logo-light.svg" alt="Sector Growth" width="132" height="36">\n'
+    + '    <h1>Book a scoping call</h1>\n'
+    + '    <p class="lede">Pick a time that suits. We match you with someone from the team.</p>\n'
+    + '    <div class="who" id="who" aria-live="polite"></div>\n'
+    + '    <div class="cal" id="cal"></div>\n'
+    + '    <noscript><ul>\n' + fallback + '\n    </ul></noscript>\n'
+    + '  </main>\n'
+    + '  <script id="pool" type="application/json">' + data + '</script>\n'
+    + '  <script>\n'
+    + '  (function () {\n'
+    + '    var pool = JSON.parse(document.getElementById("pool").textContent);\n'
+    + '    if (!pool.length) return;\n'
+    + '    var KEY = "sg-book-assignee", DAYS = 30, pick = null;\n'
+    + '    try {\n'
+    + '      var saved = JSON.parse(localStorage.getItem(KEY) || "null");\n'
+    + '      if (saved && Date.now() - saved.at < DAYS * 864e5) pick = pool.filter(function (p) { return p.slug === saved.slug; })[0] || null;\n'
+    + '    } catch (e) {}\n'
+    + '    if (!pick) {\n'
+    + '      var r = new Uint32Array(1); (window.crypto || {}).getRandomValues ? crypto.getRandomValues(r) : (r[0] = Math.floor(Math.random() * 4294967296));\n'
+    + '      pick = pool[r[0] % pool.length];\n'
+    + '      try { localStorage.setItem(KEY, JSON.stringify({ slug: pick.slug, at: Date.now() })); } catch (e) {}\n'
+    + '    }\n'
+    + '    var who = document.getElementById("who");\n'
+    + '    var img = document.createElement("img"); img.src = pick.photo; img.alt = ""; img.width = 56; img.height = 56;\n'
+    + '    var box = document.createElement("div"); var b = document.createElement("strong"); b.textContent = "Your call is with " + pick.name;\n'
+    + '    var s = document.createElement("span"); s.textContent = pick.title; box.appendChild(b); box.appendChild(s);\n'
+    + '    who.appendChild(img); who.appendChild(box);\n'
+    + '    var f = document.createElement("iframe"); f.src = pick.url; f.title = "Book a scoping call with " + pick.name; f.loading = "eager";\n'
+    + '    document.getElementById("cal").appendChild(f);\n'
+    + '  })();\n'
+    + '  </script>\n'
     + '</body>\n'
     + '</html>\n';
 }
