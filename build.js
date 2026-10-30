@@ -29,6 +29,9 @@ const ICONS = {
 
 const ARROW_SVG = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12 H19 M13 6 L19 12 L13 18"/></svg>';
 
+// A person glyph on the brand gradient, for anyone in team.json without a `photo` (never initials).
+const GLYPH_SVG = '<svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="38" r="17"/><path d="M16 100c2-24 17-36 34-36s32 12 34 36z"/></svg>';
+
 const MAIL_SVG = '<svg viewBox="0 0 48 48" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="10" width="36" height="28" rx="3"/><path d="M6 14 L24 26 L42 14"/></svg>';
 
 // ---------------------------------------------------------------------------
@@ -202,7 +205,7 @@ function buildRootPage(team) {
   // Everyone with a `scoping` scheduler is in the rotation; a visitor is assigned at random, which splits the calls
   // evenly, and keeps the same person for 30 days so a reload never swaps them. The per-person pages stay as they are.
   var pool = team.filter(function (p) { return p.scoping && p.scoping.url; }).map(function (p) {
-    return { slug: p.slug, name: p.name, title: p.title, photo: 'assets/photos/' + path.basename(p.photo), provider: p.scoping.provider, url: p.scoping.url };
+    return { slug: p.slug, name: p.name, title: p.title, photo: p.photo ? 'assets/photos/' + path.basename(p.photo) : '', provider: p.scoping.provider, url: p.scoping.url };
   });
   var data = JSON.stringify(pool).replace(/</g, '\\u003c');
   var fallback = pool.map(function (p) {
@@ -231,6 +234,8 @@ function buildRootPage(team) {
     + '    .lede { margin-top: 10px; color: var(--muted); font-size: 16px; line-height: 1.5; }\n'
     + '    .who { display: flex; align-items: center; gap: 14px; margin: 24px 0 18px; min-height: 56px; }\n'
     + '    .who img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 2px rgba(96,208,240,0.35); }\n'
+    + '    .who .glyph { flex: none; width: 56px; height: 56px; border-radius: 50%; overflow: hidden; background: radial-gradient(circle at 50% 36%, #1070B0, #0C4388 72%); box-shadow: 0 0 0 2px rgba(96,208,240,0.35); }\n'
+    + '    .who .glyph svg { display: block; width: 100%; height: 100%; fill: rgba(160,224,240,0.55); }\n'
     + '    .who strong { display: block; font-size: 16px; }\n'
     + '    .who span { font-size: 13.5px; color: var(--muted); }\n'
     + '    .cal { background: #fff; border-radius: 18px; overflow: hidden; min-height: 680px; box-shadow: 0 30px 60px -30px rgba(0,0,0,0.6); }\n'
@@ -264,7 +269,9 @@ function buildRootPage(team) {
     + '      try { localStorage.setItem(KEY, JSON.stringify({ slug: pick.slug, at: Date.now() })); } catch (e) {}\n'
     + '    }\n'
     + '    var who = document.getElementById("who");\n'
-    + '    var img = document.createElement("img"); img.src = pick.photo; img.alt = ""; img.width = 56; img.height = 56;\n'
+    + '    var img;\n'
+    + '    if (pick.photo) { img = document.createElement("img"); img.src = pick.photo; img.alt = ""; img.width = 56; img.height = 56; }\n'
+    + '    else { img = document.createElement("span"); img.className = "glyph"; img.setAttribute("aria-hidden", "true"); img.innerHTML = ' + JSON.stringify(GLYPH_SVG) + '; }\n'
     + '    var box = document.createElement("div"); var b = document.createElement("strong"); b.textContent = "Your call is with " + pick.name;\n'
     + '    var s = document.createElement("span"); s.textContent = pick.title; box.appendChild(b); box.appendChild(s);\n'
     + '    who.appendChild(img); who.appendChild(box);\n'
@@ -320,7 +327,10 @@ function main() {
       '{{title}}': escapeHtml(person.title),
       '{{titleUpper}}': escapeHtml(person.title).toUpperCase(),
       '{{tagline}}': escapeHtml(person.tagline),
-      '{{photo}}': person.photo,
+      '{{photo}}': person.photo || '',
+      '{{avatar}}': person.photo
+        ? '<img src="../assets/' + person.photo + '" alt="" width="96" height="96" loading="eager" decoding="async">'
+        : '<span class="hero__glyph">' + GLYPH_SVG + '</span>',
       '{{accentColor}}': person.accentColor,
       '{{slug}}': person.slug,
       '{{bookingCards}}': bookingCards,

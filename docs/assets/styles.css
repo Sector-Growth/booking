@@ -168,6 +168,23 @@ body {
   display: block;
 }
 
+/* No photo: a pale person glyph on the brand gradient, no letters */
+.hero__glyph {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 36%, #1070B0, #0C4388 72%);
+}
+
+.hero__glyph svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: rgba(160, 224, 240, 0.55);
+}
+
 .hero__eyebrow {
   font-family: var(--font-mono);
   font-size: 12px;

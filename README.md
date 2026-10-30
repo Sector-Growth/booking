@@ -28,7 +28,7 @@ https://book.sectorgrowth.com/ does not ask visitors to choose. Everyone in `tea
 ## Adding a New Person
 
 1. Add an entry to `team.json` (see existing entries for the schema)
-2. Drop their profile photo (256x256px) into `assets/photos/`
+2. Drop their profile photo (256x256px) into `assets/photos/` and set `photo`, or leave `photo` out: the page then shows a person glyph on the brand gradient
 3. Run `npm run build`
 4. Commit and push (the `docs/` directory is committed)
 5. Add a Cloudflare DNS CNAME + redirect rule for their vanity subdomain
