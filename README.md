@@ -25,6 +25,16 @@ cd docs && ruby -run -ehttpd . -p8766
 
 https://book.sectorgrowth.com/ does not ask visitors to choose. Everyone in `team.json` with a `scoping` scheduler (`provider`, `url`) is in the rotation: a visitor is assigned at random, which splits calls evenly, and keeps the same person for 30 days (localStorage), and that person's calendar is embedded on the page. Add or remove someone from the rotation by adding or removing their `scoping` entry. The per-person pages (`/prash/`, `/sean/`) are unchanged. A HubSpot round-robin meeting link would replace this with availability-aware assignment; put it in as the only `scoping` entry when it exists.
 
+## Search (SEO/AEO)
+
+The site follows Sector Growth's SEO/AEO standard (`Sector-Growth/seo-aeo-kit`). `build.js` writes it all into `docs/`:
+
+- The root page is the one indexed page: a canonical, a title and description in the house ranges, full-snippet robots, Open Graph with a 1200x630 image (`assets/og-book.png`), and JSON-LD: the shared Sector Growth Organization (`seo/sg-entity.mjs`, copied from the kit), a WebSite and a ContactPage.
+- The per-person pages (`/prash/`, `/sean/`) are `noindex, follow`. They are one template with a different calendar, made to be shared directly; search sends people to the root page, which assigns the call to the team. Each still has a canonical and a ProfilePage graph naming the person by first name.
+- `robots.txt` (the kit's template, `seo/robots.template.txt`), `sitemap.xml` (the root page; its date is `ROOT_CONTENT_DATE` in `build.js`, changed only with a real content change), `llms.txt`, `404.html` and the IndexNow key file.
+- After a push that changes the root page, ping IndexNow from `../seo-aeo-kit`: `INDEXNOW_KEY=<INDEXNOW_KEY in build.js> node snippets/indexnow-ping.mjs --host book.sectorgrowth.com`.
+- GitHub Pages cannot set response headers, so this host has no HSTS, CSP or `X-Content-Type-Options`. Moving it to Cloudflare Pages (with the kit's `_headers`) would add them.
+
 ## Adding a New Person
 
 1. Add an entry to `team.json` (see existing entries for the schema)

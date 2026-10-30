@@ -1,0 +1,8 @@
+# Sector Growth: book a call
+
+> Book a scoping call with Sector Growth, an Elite HubSpot Solutions Partner in Toronto. Pick a time and we match you with someone from the team.
+
+## Pages
+
+- [Book a scoping call](https://book.sectorgrowth.com/): the team booking page. It assigns the call to someone from the team and shows their calendar.
+- [Sector Growth](https://sectorgrowth.com): Elite HubSpot Solutions Partner and CRM integration consultancy, Toronto, serving North America.

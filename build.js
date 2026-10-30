@@ -18,6 +18,28 @@ const TEMPLATE_DIR = path.join(ROOT, 'template');
 const ASSETS_DIR = path.join(ROOT, 'assets');
 
 // ---------------------------------------------------------------------------
+// Search (Sector Growth's SEO/AEO standard, Sector-Growth/seo-aeo-kit)
+// ---------------------------------------------------------------------------
+
+const ORIGIN = 'https://book.sectorgrowth.com';
+// The date the root page's content last changed (sitemap lastmod, dateModified).
+// A content date, not the build date: change it only with a real change to the page.
+const ROOT_CONTENT_DATE = '2026-10-30';
+// IndexNow key (public by design): published as docs/<key>.txt. After a push, ping from
+// ../seo-aeo-kit: INDEXNOW_KEY=<key> node snippets/indexnow-ping.mjs --host book.sectorgrowth.com
+const INDEXNOW_KEY = '5e5d96565d05a3e823f6009b5a828ead';
+const ROBOTS_INDEX = 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1';
+// The per-person pages are thin copies of one template, meant for links a person shares
+// (email signatures, vanity subdomains). Search sends visitors to the root page, which assigns
+// the call to the team; the person pages stay out of the index but pass their links on.
+const ROBOTS_PERSON = 'noindex, follow';
+const OG_IMAGE = ORIGIN + '/assets/og-book.png';
+const ROOT_TITLE = 'Book a HubSpot scoping call · Sector Growth';
+const ROOT_DESCRIPTION = 'Book a scoping call with Sector Growth, an Elite HubSpot Solutions Partner in Toronto. Pick a time and we match you with someone from the team.';
+// One credential in the kit's Organization names an AI vendor; SG's booking pages name none.
+const WITHHELD_CREDENTIAL_ISSUERS = ['Anthropic'];
+
+// ---------------------------------------------------------------------------
 // Icon SVGs (used in booking cards)
 // ---------------------------------------------------------------------------
 
@@ -62,6 +84,97 @@ function copyDir(src, dest) {
 
 function escapeHtml(str) {
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function escapeAttr(str) {
+  return escapeHtml(str).replace(/"/g, '&quot;');
+}
+
+/** The shared Organization (seo/sg-entity.mjs, copied from the kit), less the withheld credential. */
+function organizationNode(entity) {
+  var org = Object.assign({}, entity.ORGANIZATION);
+  delete org['@context'];
+  org.hasCredential = org.hasCredential.filter(function (c) { return WITHHELD_CREDENTIAL_ISSUERS.indexOf(c.recognizedBy.name) === -1; });
+  return org;
+}
+
+/** The root page's graph: the Organization in full, the WebSite, and the page itself as a ContactPage. */
+function rootGraph(entity) {
+  var url = ORIGIN + '/';
+  var page = entity.webPage({ url: url, name: ROOT_TITLE, description: ROOT_DESCRIPTION, origin: ORIGIN, type: 'ContactPage', dateModified: ROOT_CONTENT_DATE, about: entity.ORG_REF });
+  page.inLanguage = 'en-CA';
+  page.mainEntity = entity.ORG_REF;
+  page.primaryImageOfPage = { '@type': 'ImageObject', url: OG_IMAGE, width: 1200, height: 630 };
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [organizationNode(entity), entity.website({ origin: ORIGIN, alternateName: 'Sector Growth booking' }), page],
+  };
+}
+
+/** A person page's graph: the page (noindex) about the person, first name only, who works for the Organization. */
+function personGraph(entity, person) {
+  var url = ORIGIN + '/' + person.slug + '/';
+  var known = entity.PEOPLE[person.slug];
+  var who = known ? Object.assign({}, known) : { '@type': 'Person', '@id': 'https://sectorgrowth.com/#person-' + person.slug, name: person.name, jobTitle: person.title, worksFor: entity.ORG_REF };
+  var page = entity.webPage({ url: url, name: 'Book time with ' + person.name + ' · Sector Growth', description: 'Book a meeting with ' + person.name + ', ' + person.title + ' at Sector Growth.', origin: ORIGIN, type: 'ProfilePage', about: { '@id': who['@id'] } });
+  page.inLanguage = 'en-CA';
+  page.mainEntity = { '@id': who['@id'] };
+  return { '@context': 'https://schema.org', '@graph': [page, who] };
+}
+
+function jsonLdScript(entity, data) {
+  return '<script type="application/ld+json">' + entity.serialize(data) + '</script>';
+}
+
+function robotsTxt() {
+  // The kit's template (seo/robots.template.txt) with this host.
+  return readFile(path.join(ROOT, 'seo', 'robots.template.txt')).split('HOST').join('book.sectorgrowth.com');
+}
+
+function sitemapXml() {
+  return '<?xml version="1.0" encoding="UTF-8"?>\n'
+    + '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    + '  <url>\n    <loc>' + ORIGIN + '/</loc>\n    <lastmod>' + ROOT_CONTENT_DATE + '</lastmod>\n  </url>\n'
+    + '</urlset>\n';
+}
+
+function llmsTxt() {
+  return '# Sector Growth: book a call\n\n'
+    + '> ' + ROOT_DESCRIPTION + '\n\n'
+    + '## Pages\n\n'
+    + '- [Book a scoping call](' + ORIGIN + '/): the team booking page. It assigns the call to someone from the team and shows their calendar.\n'
+    + '- [Sector Growth](https://sectorgrowth.com): Elite HubSpot Solutions Partner and CRM integration consultancy, Toronto, serving North America.\n';
+}
+
+/** GitHub Pages serves docs/404.html, with HTTP 404, for any path that has no file. */
+function notFoundPage() {
+  return '<!DOCTYPE html>\n'
+    + '<html lang="en-CA">\n'
+    + '<head>\n'
+    + '  <meta charset="UTF-8">\n'
+    + '  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n'
+    + '  <title>Page not found · Sector Growth</title>\n'
+    + '  <meta name="robots" content="noindex">\n'
+    + '  <meta name="theme-color" content="#0A1628">\n'
+    + '  <link rel="icon" type="image/png" href="/assets/favicon.png">\n'
+    + '  <style>\n'
+    + '    * { box-sizing: border-box; margin: 0; padding: 0; }\n'
+    + '    body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; background: radial-gradient(1200px 600px at 50% -10%, #1050A0 0%, #0A1628 60%); color: #F5F7FA; min-height: 100vh; padding: 32px 16px 48px; }\n'
+    + '    .wrap { max-width: 760px; margin: 0 auto; }\n'
+    + '    .logo { display: block; width: 132px; height: auto; margin-bottom: 28px; }\n'
+    + '    h1 { font-size: clamp(26px, 4vw, 34px); line-height: 1.15; }\n'
+    + '    p { margin-top: 10px; color: #A9B6C8; font-size: 16px; line-height: 1.5; }\n'
+    + '    a { color: #60D0F0; font-weight: 600; }\n'
+    + '  </style>\n'
+    + '</head>\n'
+    + '<body>\n'
+    + '  <main class="wrap">\n'
+    + '    <img class="logo" src="/assets/sector-logo-light.svg" alt="Sector Growth" width="132" height="36">\n'
+    + '    <h1>Page not found</h1>\n'
+    + '    <p>There is no booking page at this address. <a href="/">Book a scoping call with the team</a>.</p>\n'
+    + '  </main>\n'
+    + '</body>\n'
+    + '</html>\n';
 }
 
 // ---------------------------------------------------------------------------
@@ -200,7 +313,7 @@ function buildBookingConfig(person) {
 // Root directory page
 // ---------------------------------------------------------------------------
 
-function buildRootPage(team) {
+function buildRootPage(team, entity) {
   // The root page assigns the call automatically (owner, 2026-10-07: "rather than asking visitors to choose").
   // Everyone with a `scoping` scheduler is in the rotation; a visitor is assigned at random, which splits the calls
   // evenly, and keeps the same person for 30 days so a reload never swaps them. The per-person pages stay as they are.
@@ -213,14 +326,29 @@ function buildRootPage(team) {
   }).join('\n');
 
   return '<!DOCTYPE html>\n'
-    + '<html lang="en">\n'
+    + '<html lang="en-CA">\n'
     + '<head>\n'
     + '  <meta charset="UTF-8">\n'
     + '  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n'
-    + '  <title>Book a scoping call · Sector Growth</title>\n'
-    + '  <meta name="description" content="Book a scoping call with the Sector Growth team.">\n'
+    + '  <title>' + escapeHtml(ROOT_TITLE) + '</title>\n'
+    + '  <meta name="description" content="' + escapeAttr(ROOT_DESCRIPTION) + '">\n'
+    + '  <meta name="robots" content="' + ROBOTS_INDEX + '">\n'
+    + '  <link rel="canonical" href="' + ORIGIN + '/">\n'
+    + '  <meta property="og:type" content="website">\n'
+    + '  <meta property="og:site_name" content="Sector Growth">\n'
+    + '  <meta property="og:title" content="' + escapeAttr(ROOT_TITLE) + '">\n'
+    + '  <meta property="og:description" content="' + escapeAttr(ROOT_DESCRIPTION) + '">\n'
+    + '  <meta property="og:url" content="' + ORIGIN + '/">\n'
+    + '  <meta property="og:locale" content="en_CA">\n'
+    + '  <meta property="og:image" content="' + OG_IMAGE + '">\n'
+    + '  <meta property="og:image:width" content="1200">\n'
+    + '  <meta property="og:image:height" content="630">\n'
+    + '  <meta property="og:image:alt" content="Book a scoping call with Sector Growth">\n'
+    + '  <meta name="twitter:card" content="summary_large_image">\n'
+    + '  <meta name="twitter:image" content="' + OG_IMAGE + '">\n'
     + '  <meta name="theme-color" content="#0A1628">\n'
     + '  <link rel="icon" type="image/png" href="assets/favicon.png">\n'
+    + '  ' + jsonLdScript(entity, rootGraph(entity)) + '\n'
     + '  <link rel="preconnect" href="https://fonts.googleapis.com">\n'
     + '  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'
     + '  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">\n'
@@ -287,7 +415,8 @@ function buildRootPage(team) {
 // Main
 // ---------------------------------------------------------------------------
 
-function main() {
+async function main() {
+  var entity = await import(require('url').pathToFileURL(path.join(ROOT, 'seo', 'sg-entity.mjs')).href);
   console.log('[build] Reading team.json...');
   var team = JSON.parse(readFile(path.join(ROOT, 'team.json')));
   var template = readFile(path.join(TEMPLATE_DIR, 'index.html'));
@@ -341,6 +470,9 @@ function main() {
       '{{providerMounts}}': buildProviderMounts(person),
       '{{bookingConfig}}': buildBookingConfig(person),
       '{{footerProvider}}': getFooterProvider(person),
+      '{{robots}}': ROBOTS_PERSON,
+      '{{canonical}}': ORIGIN + '/' + person.slug + '/',
+      '{{jsonLd}}': jsonLdScript(entity, personGraph(entity, person)),
     };
 
     var html = template;
@@ -353,7 +485,15 @@ function main() {
 
   // Generate root directory page
   console.log('[build] Generating root directory page...');
-  writeFile(path.join(DIST, 'index.html'), buildRootPage(team));
+  writeFile(path.join(DIST, 'index.html'), buildRootPage(team, entity));
+
+  // Files for crawlers, the real 404, and the IndexNow key
+  console.log('[build] Writing robots.txt, sitemap.xml, llms.txt, 404.html and the IndexNow key...');
+  writeFile(path.join(DIST, 'robots.txt'), robotsTxt());
+  writeFile(path.join(DIST, 'sitemap.xml'), sitemapXml());
+  writeFile(path.join(DIST, 'llms.txt'), llmsTxt());
+  writeFile(path.join(DIST, '404.html'), notFoundPage());
+  writeFile(path.join(DIST, INDEXNOW_KEY + '.txt'), INDEXNOW_KEY);
 
   console.log('[build] Done! Output in dist/');
   console.log('[build] Pages:');
@@ -362,4 +502,7 @@ function main() {
   });
 }
 
-main();
+main().catch(function (e) {
+  console.error(e);
+  process.exit(1);
+});

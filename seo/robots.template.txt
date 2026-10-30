@@ -1,0 +1,51 @@
+# robots.txt for Sector Growth marketing sites (seo-aeo-kit/robots/POLICY.md).
+# The kit's template; build.js writes it to docs/robots.txt for book.sectorgrowth.com.
+# The per-person pages stay crawlable on purpose: they carry noindex, which a
+# Disallow would hide from crawlers (POLICY.md rule 3).
+#
+# Everything here is published to be read by people and by machines, including
+# answer engines. Each bot is named so the policy is explicit: a bot obeys only
+# the most specific group that names it, so every group repeats the Disallow
+# lines (add private paths such as /admin/ to every group, or to none).
+#
+# Preview hosts (*.pages.dev) are kept out of search by an X-Robots-Tag header
+# (snippets/_headers), never by this file: a Disallow would stop crawlers from
+# seeing the noindex.
+
+# Default for every crawler not named below.
+User-agent: *
+Allow: /
+
+# Search engines. Googlebot also feeds AI Overviews and AI Mode; Bingbot feeds
+# Bing, Copilot and the Bing grounding behind other assistants.
+User-agent: Googlebot
+User-agent: Bingbot
+User-agent: Applebot
+User-agent: DuckDuckBot
+Allow: /
+
+# AI search: these decide whether SG pages can be cited in answers.
+User-agent: OAI-SearchBot
+User-agent: PerplexityBot
+User-agent: Claude-SearchBot
+Allow: /
+
+# User-requested fetches: a person asked the assistant about an SG page.
+User-agent: ChatGPT-User
+User-agent: Perplexity-User
+User-agent: Claude-User
+Allow: /
+
+# Model training. SG's default is to allow (POLICY.md explains the trade-off).
+# Google-Extended is named explicitly: Google says sites that allow it stay
+# eligible for grounding (and clicks) in Gemini Apps, and plans to read a
+# shared AI-training opt-out token as a Google-Extended disallow unless
+# Google-Extended is named. Change "Allow" to "Disallow" per bot to opt out.
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: CCBot
+Allow: /
+
+Sitemap: https://HOST/sitemap.xml

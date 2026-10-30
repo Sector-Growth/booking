@@ -1,17 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-CA">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Book time with {{name}} · Sector Growth</title>
   <meta name="description" content="Book a meeting with {{name}}, {{title}} at Sector Growth.">
+  <!-- A person page: shared directly, kept out of search (the root page assigns calls to the team). -->
+  <meta name="robots" content="{{robots}}">
+  <link rel="canonical" href="{{canonical}}">
   <meta name="theme-color" content="#0A1628">
 
   <!-- Open Graph -->
+  <meta property="og:site_name" content="Sector Growth">
   <meta property="og:title" content="Book time with {{name}} · Sector Growth">
   <meta property="og:description" content="{{title}} at Sector Growth.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://book.sectorgrowth.com/{{slug}}">
+  <meta property="og:url" content="{{canonical}}">
+  <meta property="og:image" content="https://book.sectorgrowth.com/assets/og-book.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  {{jsonLd}}
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="../assets/favicon.png">
