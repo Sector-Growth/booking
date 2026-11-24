@@ -25,6 +25,7 @@ export const LOGO_URL = 'https://apps.sectorgrowth.com/brand/sector-logo.svg';
 
 const CREDENTIALS = [
   ['HubSpot Elite Solutions Partner', 'Partner program', 'HubSpot'],
+  ['HubSpot CRM Implementation Accreditation', 'Accreditation', 'HubSpot'],
   ['HubSpot Custom Integration Accreditation', 'Accreditation', 'HubSpot'],
   ['HubSpot CRM Data Migration Accreditation', 'Accreditation', 'HubSpot'],
   ['HubSpot Solutions Architecture Design Accreditation', 'Accreditation', 'HubSpot'],
