@@ -686,7 +686,7 @@ body.modal-open {
   background: linear-gradient(180deg, rgba(3, 8, 18, 0.4) 0%, rgba(3, 8, 18, 0.78) 45%, rgba(3, 8, 18, 0.9) 100%);
 }
 
-/* Pointing at the band lights the whole close, band and footer together, in the leaf colours; its top edge turns
+/* Pointing at the band (on a touch screen: reaching the bottom of the page, app.js) lights the whole close, band and footer together, in the leaf colours; its top edge turns
    into a spectrum line. The rest of the page stays as it is. */
 .closing::after {
   content: "";
@@ -706,7 +706,8 @@ body.modal-open {
   transition: opacity 900ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-body.is-hovering-next .closing::after {
+body.is-hovering-next .closing::after,
+.closing.is-lit::after {
   opacity: 1;
 }
 
@@ -741,7 +742,8 @@ body.is-hovering-next .closing::after {
 }
 
 .next:hover::before,
-.next:focus-within::before {
+.next:focus-within::before,
+.next.is-lit::before {
   opacity: 1;
   transform: scale(1.06);
 }
@@ -795,6 +797,7 @@ body.is-hovering-next .closing::after {
 }
 
 .next:hover .next__cta,
+.next.is-lit .next__cta,
 .next__cta:focus-visible {
   background: #FFFFFF;
   border-color: #FFFFFF;
@@ -810,7 +813,8 @@ body.is-hovering-next .closing::after {
   transition: transform 260ms ease;
 }
 
-.next:hover .next__cta svg {
+.next:hover .next__cta svg,
+.next.is-lit .next__cta svg {
   transform: translate(2px, -2px);
 }
 
@@ -885,30 +889,35 @@ body.is-hovering-next .closing::after {
 /* Pointing at the band: the rosette blooms out. Each leaf steps away from the hub along its own line, turns and
    grows, one after another; the inner leaves open further, the hub swells and glows, dots run round the ring. */
 .next:hover .rosette,
-.next:focus-within .rosette {
+.next:focus-within .rosette,
+.next.is-lit .rosette {
   transform: scale(1.08);
 }
 
 .next:hover .leaf,
-.next:focus-within .leaf {
+.next:focus-within .leaf,
+.next.is-lit .leaf {
   transform: translate(30px, 30px) rotate(14deg) scale(1.12);
   transition-delay: calc(var(--i) * 40ms);
 }
 
 .next:hover .leaf__in,
-.next:focus-within .leaf__in {
+.next:focus-within .leaf__in,
+.next.is-lit .leaf__in {
   transform: translate(16px, 16px) scale(1.08);
   opacity: 0.18;
 }
 
 .next:hover .rosette__hub,
-.next:focus-within .rosette__hub {
+.next:focus-within .rosette__hub,
+.next.is-lit .rosette__hub {
   transform: scale(1.12);
   filter: drop-shadow(0 0 22px rgba(255, 122, 89, 0.85));
 }
 
 .next:hover .rosette__ring,
-.next:focus-within .rosette__ring {
+.next:focus-within .rosette__ring,
+.next.is-lit .rosette__ring {
   stroke: rgba(255, 255, 255, 0.5);
   animation-play-state: running;
 }
@@ -1608,7 +1617,8 @@ button.qxCTlb {
   .next .leaf,
   .next.is-waiting .leaf,
   .next:hover .leaf,
-  .next:focus-within .leaf {
+  .next:focus-within .leaf,
+  .next.is-lit .leaf {
     transform: none;
   }
 }

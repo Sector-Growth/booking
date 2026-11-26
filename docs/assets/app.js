@@ -183,10 +183,35 @@ function wireRosetteReveal() {
   io.observe(band);
 }
 
+/* ===== Touch screens: the bottom of the page lights the close ===== */
+
+// A phone has no hover, so reaching the bottom of the page (the whole footer on screen) does what pointing at the band
+// does on a desktop: the rosette blooms out and the band and footer light up. Scrolling back up a little turns it off.
+function wireBottomLight() {
+  if (!window.matchMedia || !window.matchMedia('(hover: none)').matches) return;
+  if (!('IntersectionObserver' in window)) return;
+  var band = document.querySelector('.next');
+  var closing = document.querySelector('.closing');
+  var footer = document.querySelector('.site-footer');
+  if (!band || !closing || !footer) return;
+  var io = new IntersectionObserver(function (entries) {
+    var ratio = entries[entries.length - 1].intersectionRatio;
+    if (ratio >= 0.95) {
+      band.classList.add('is-lit');
+      closing.classList.add('is-lit');
+    } else if (ratio < 0.2) {
+      band.classList.remove('is-lit');
+      closing.classList.remove('is-lit');
+    }
+  }, { threshold: [0, 0.2, 0.95, 1] });
+  io.observe(footer);
+}
+
 /* ===== Init ===== */
 
 // The rosette's fold runs as soon as the page is parsed (this script is deferred), before the booking scripts load.
 wireRosetteReveal();
+wireBottomLight();
 
 window.addEventListener('load', function () {
   var config = window.BOOKING_CONFIG || {};
