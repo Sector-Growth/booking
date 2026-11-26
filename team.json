@@ -59,5 +59,36 @@
       "provider": "hubspot",
       "url": "https://meetings.hubspot.com/sean-sectorgrowth/technical-scoping?embed=true"
     }
+  },
+  {
+    "slug": "nijat",
+    "name": "Nijat",
+    "title": "Co-founder & CEO",
+    "tagline": "Let's talk HubSpot strategy, onboarding, or your next project.",
+    "photo": "photos/nijat.jpg",
+    "accentColor": "#6BCFEE",
+    "email": "nijat@sectorgrowth.ca",
+    "bookings": [
+      {
+        "provider": "hubspot",
+        "duration": "30",
+        "label": "Quick intro",
+        "description": "A short call on your goals and where HubSpot fits.",
+        "ctaLabel": "Book 30 minutes",
+        "url": "https://meetings.hubspot.com/nijat-abdulkarimli/nijat-30-min",
+        "embedUrl": "https://meetings.hubspot.com/nijat-abdulkarimli/nijat-30-min?embed=true",
+        "icon": "clock"
+      },
+      {
+        "provider": "hubspot",
+        "duration": "60",
+        "label": "Strategy session",
+        "description": "A full hour on your HubSpot setup, your roadmap and the next steps.",
+        "ctaLabel": "Book 1 hour",
+        "url": "https://meetings.hubspot.com/sectorgrowth/nijat",
+        "embedUrl": "https://meetings.hubspot.com/sectorgrowth/nijat?embed=true",
+        "icon": "layers"
+      }
+    ]
   }
 ]
