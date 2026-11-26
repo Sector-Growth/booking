@@ -546,6 +546,7 @@ async function main() {
       '{{jsonLd}}': jsonLdScript(entity, personGraph(entity, person)),
       '{{exploreLinks}}': buildExploreLinks(),
       '{{rosette}}': rosetteSvg(),
+      '{{year}}': String(new Date().getFullYear()),
     };
 
     var html = template;

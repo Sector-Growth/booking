@@ -44,9 +44,24 @@
   <!-- Ambient layers (purely decorative) -->
   <div class="ambient">
     <div class="ambient__mesh" aria-hidden="true"></div>
-    <div class="ambient__grid" aria-hidden="true"></div>
+    <!-- Dotted orbits round the person, in the language of the Sector Agents ring (they replace the old square grid).
+         The spectrum copy shows on the Sector Agents band, its dots running both ways, like agents talking. -->
+    <svg class="ambient__orbits" viewBox="-800 -800 1600 1600" width="1600" height="1600" aria-hidden="true" focusable="false">
+      <defs>
+        <linearGradient id="orbit-spectrum" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#4CC9F0"/>
+          <stop offset="0.28" stop-color="#2FD6A6"/>
+          <stop offset="0.52" stop-color="#FFC43D"/>
+          <stop offset="0.74" stop-color="#FF7A59"/>
+          <stop offset="1" stop-color="#B095FF"/>
+        </linearGradient>
+      </defs>
+      <g class="orbits orbits--plain"><circle r="150"/><circle r="270"/><circle r="410"/><circle r="570"/><circle r="750"/></g>
+      <g class="orbits orbits--spectrum"><circle r="150"/><circle r="270"/><circle r="410"/><circle r="570"/><circle r="750"/></g>
+    </svg>
     <div class="ambient__orb" aria-hidden="true"></div>
     <div class="ambient__aura" aria-hidden="true"></div>
+    <div class="ambient__spectrum" aria-hidden="true"></div>
     <div class="ambient__grain" aria-hidden="true"></div>
   </div>
 
@@ -144,6 +159,8 @@
     </a>
   </nav>
 
+  <!-- The close: the Sector Agents band and the footer share one dark ground, so the page ends in one piece -->
+  <div class="closing">
   <section class="next" aria-labelledby="next-h" data-hover-class="is-hovering-next">
     <div class="next__inner">
       <div class="next__text">
@@ -159,8 +176,22 @@
   </section>
 
   <footer class="site-footer">
-    <p>Powered by Google Calendar &nbsp;·&nbsp; Sector Growth &copy; 2026</p>
+    <div class="site-footer__top">
+      <a class="site-footer__brand" href="https://sectorgrowth.com/" target="_blank" rel="noopener">
+        <img src="../assets/sector-logo-light.svg" alt="Sector Growth" width="133" height="40" loading="lazy">
+      </a>
+      <nav class="site-footer__nav" aria-label="Sector Growth">
+        <a href="https://sectorgrowth.com/" target="_blank" rel="noopener">sectorgrowth.com</a>
+        <a href="https://sectorgrowth.com/privacy" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://sectorgrowth.com/terms" target="_blank" rel="noopener">Terms</a>
+      </nav>
+    </div>
+    <div class="site-footer__legal">
+      <p>&copy; 2026 Sector Growth. Toronto, Canada.</p>
+      <p>Scheduling by Google Calendar</p>
+    </div>
   </footer>
+  </div>
 
   <div id="g-30" class="g-mount" aria-hidden="true"></div>
   <div id="g-60" class="g-mount" aria-hidden="true"></div>

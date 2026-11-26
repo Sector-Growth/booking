@@ -669,16 +669,59 @@ body.modal-open {
 
 /* What comes next: Sector Agents. The one loud thing below the booking. It leaves the card column for a full-width
    band, borrows the Sector Agents face (Manrope 800) and its leaf colours, and the whole band opens the site. */
-.next {
+.closing {
   position: relative;
   z-index: 2;
+  isolation: isolate;
   margin-top: clamp(56px, 9vh, 88px);
-  padding: clamp(48px, 7vh, 72px) var(--gutter);
-  background:
-    radial-gradient(420px 320px at calc(50% + 250px) 50%, rgba(255, 122, 89, 0.10) 0%, transparent 70%),
-    linear-gradient(180deg, rgba(3, 8, 18, 0.35) 0%, rgba(3, 8, 18, 0.72) 100%);
   border-top: 1px solid rgba(255, 255, 255, 0.07);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* The dark ground under the band and the footer. Pointing at the band thins it, so the colours behind come through. */
+.closing::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg, rgba(3, 8, 18, 0.4) 0%, rgba(3, 8, 18, 0.78) 45%, rgba(3, 8, 18, 0.9) 100%);
+  transition: opacity 900ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+body.is-hovering-next .closing::before {
+  opacity: 0.4;
+}
+
+.next {
+  position: relative;
+  overflow: hidden; /* the light layer below is larger than the band; the band's edges cut it */
+  padding: clamp(56px, 8vh, 84px) var(--gutter) clamp(52px, 7vh, 72px);
+  /* where the rosette sits: the right column of the 744px row */
+  --bloom-x: calc(50% + 252px);
+  --bloom-y: 50%;
+}
+
+/* The rosette's light: a hint of the leaf colours at rest, the full spread on hover */
+.next::before {
+  content: "";
+  position: absolute;
+  inset: -15%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(260px 220px at var(--bloom-x) var(--bloom-y), rgba(255, 122, 89, 0.30) 0%, transparent 70%),
+    radial-gradient(380px 300px at calc(var(--bloom-x) + 90px) calc(var(--bloom-y) - 60px), rgba(176, 149, 255, 0.24) 0%, transparent 70%),
+    radial-gradient(420px 300px at calc(var(--bloom-x) - 120px) calc(var(--bloom-y) + 80px), rgba(47, 214, 166, 0.22) 0%, transparent 70%),
+    radial-gradient(360px 260px at calc(var(--bloom-x) + 120px) calc(var(--bloom-y) + 90px), rgba(255, 196, 61, 0.18) 0%, transparent 70%),
+    radial-gradient(420px 320px at calc(var(--bloom-x) - 160px) calc(var(--bloom-y) - 90px), rgba(76, 201, 240, 0.18) 0%, transparent 70%);
+  opacity: 0.3;
+  transform: scale(0.92);
+  transition: opacity 900ms cubic-bezier(0.2, 0.8, 0.2, 1), transform 1100ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.next:hover::before,
+.next:focus-within::before {
+  opacity: 1;
+  transform: scale(1.06);
 }
 
 .next__inner {
@@ -754,6 +797,7 @@ body.modal-open {
   width: 240px;
   height: 240px;
   overflow: visible;
+  transition: transform 1000ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .rosette__ring {
@@ -762,6 +806,13 @@ body.modal-open {
   stroke-width: 2.5;
   stroke-linecap: round;
   stroke-dasharray: 0.5 14;
+  transition: stroke 600ms ease;
+  /* dots run round the ring while the band is pointed at, like messages between agents */
+  animation: ringTravel 7s linear infinite paused;
+}
+
+@keyframes ringTravel {
+  to { stroke-dashoffset: -145; }
 }
 
 .leaf {
@@ -779,6 +830,9 @@ body.modal-open {
 .leaf__in {
   fill: #FFFFFF;
   opacity: 0.08;
+  transform-box: fill-box;
+  transform-origin: 0 0;
+  transition: transform 1100ms cubic-bezier(0.2, 0.8, 0.2, 1), opacity 600ms ease;
 }
 
 .leaf--watch { fill: #4CC9F0; }
@@ -788,7 +842,9 @@ body.modal-open {
 
 .rosette__hub {
   fill: #FF7A59;
-  transition: filter 500ms ease;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: filter 600ms ease, transform 900ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .rosette__name {
@@ -804,28 +860,90 @@ body.modal-open {
   transform: scale(0.1) rotate(-60deg);
 }
 
-/* Pointing at the band: the leaves lean round a little, the hub warms */
+/* Pointing at the band: the rosette blooms out. Each leaf steps away from the hub along its own line, turns and
+   grows, one after another; the inner leaves open further, the hub swells and glows, dots run round the ring. */
+.next:hover .rosette,
+.next:focus-within .rosette {
+  transform: scale(1.08);
+}
+
 .next:hover .leaf,
 .next:focus-within .leaf {
-  transform: rotate(8deg) scale(1.03);
-  transition-delay: 0ms;
+  transform: translate(30px, 30px) rotate(14deg) scale(1.12);
+  transition-delay: calc(var(--i) * 40ms);
+}
+
+.next:hover .leaf__in,
+.next:focus-within .leaf__in {
+  transform: translate(16px, 16px) scale(1.08);
+  opacity: 0.18;
 }
 
 .next:hover .rosette__hub,
 .next:focus-within .rosette__hub {
-  filter: drop-shadow(0 0 18px rgba(255, 122, 89, 0.7));
+  transform: scale(1.12);
+  filter: drop-shadow(0 0 22px rgba(255, 122, 89, 0.85));
 }
 
-/* Footer */
+.next:hover .rosette__ring,
+.next:focus-within .rosette__ring {
+  stroke: rgba(255, 255, 255, 0.5);
+  animation-play-state: running;
+}
+
+/* Footer: on the band's dark ground, aligned to the same 744px column */
 .site-footer {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  padding: 20px var(--gutter) 16px;
+  padding: 0 var(--gutter) 28px;
   color: var(--text-muted);
-  font-size: 12px;
-  letter-spacing: 0.04em;
-  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.site-footer__top,
+.site-footer__legal {
+  max-width: 744px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 24px;
+  flex-wrap: wrap;
+}
+
+.site-footer__top {
+  padding: 28px 0 22px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.site-footer__brand img {
+  width: 120px;
+  height: auto;
+}
+
+.site-footer__brand:focus-visible,
+.site-footer__nav a:focus-visible {
+  outline: 2px solid var(--accent-cyan);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.site-footer__nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+}
+
+.site-footer__nav a {
+  color: var(--text-muted);
+  transition: color 200ms ease;
+}
+
+.site-footer__nav a:hover {
+  color: var(--text-primary);
+}
+
+.site-footer__legal {
+  font-size: 12.5px;
+  color: rgba(148, 163, 184, 0.75);
 }
 
 /* ---------- 5. Ambient layer ---------- */
@@ -858,16 +976,54 @@ body.modal-open {
   100% { transform: translate3d(2%, -2%, 0) scale(1.02); }
 }
 
-/* Technical grid overlay */
-.ambient__grid {
+/* Dotted orbits, centred on the avatar (they replace the square grid). Fixed with the rest of the ambient layer. */
+.ambient__orbits {
   position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
-  background-size: 64px 64px;
-  mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
-  -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+  left: 50%;
+  top: 186px;
+  width: 1600px;
+  height: 1600px;
+  max-width: none;
+  margin: -800px 0 0 -800px;
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 12%, rgba(0, 0, 0, 0.55) 34%, transparent 62%);
+          mask-image: radial-gradient(circle at 50% 50%, #000 12%, rgba(0, 0, 0, 0.55) 34%, transparent 62%);
+  transition: transform 1200ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.orbits circle {
+  fill: none;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-dasharray: 0.1 11;
+}
+
+.orbits--plain {
+  opacity: 0.55;
+  transition: opacity 900ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.orbits--plain circle {
+  stroke: rgba(255, 255, 255, 0.3);
+}
+
+.orbits--spectrum {
+  opacity: 0;
+  transition: opacity 900ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.orbits--spectrum circle {
+  stroke: url(#orbit-spectrum);
+  stroke-width: 2.4;
+  animation: orbitTravel 9s linear infinite paused;
+}
+
+/* neighbouring rings run opposite ways: work passing in both directions */
+.orbits--spectrum circle:nth-child(even) {
+  animation-direction: reverse;
+}
+
+@keyframes orbitTravel {
+  to { stroke-dashoffset: -222; }
 }
 
 /* Orbiting glow orb behind hero */
@@ -913,8 +1069,7 @@ body.modal-open {
 
 /* Existing ambient layers transition smoothly between rest and hover states */
 .ambient__mesh,
-.ambient__orb,
-.ambient__grid {
+.ambient__orb {
   transition:
     filter 900ms cubic-bezier(0.2, 0.8, 0.2, 1),
     opacity 900ms cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -950,13 +1105,12 @@ body.is-hovering-60 .ambient__orb {
   filter: blur(24px) brightness(1.7) saturate(1.35);
   opacity: 1;
 }
-body.is-hovering-60 .ambient__grid {
-  /* Grid "comes alive" — lines brighten, mask opens wider */
-  background-image:
-    linear-gradient(to right, rgba(123, 177, 240, 0.085) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(123, 177, 240, 0.085) 1px, transparent 1px);
-  mask-image: radial-gradient(ellipse at center, black 55%, transparent 95%);
-  -webkit-mask-image: radial-gradient(ellipse at center, black 55%, transparent 95%);
+/* Orbits "come alive": brighter, and they widen a little */
+body.is-hovering-60 .orbits--plain {
+  opacity: 1;
+}
+body.is-hovering-60 .ambient__orbits {
+  transform: scale(1.05);
 }
 body.is-hovering-60 .ambient__aura {
   opacity: 1;
@@ -987,12 +1141,11 @@ body.is-hovering-primary .ambient__orb {
   filter: blur(24px) brightness(1.7) saturate(1.35);
   opacity: 1;
 }
-body.is-hovering-primary .ambient__grid {
-  background-image:
-    linear-gradient(to right, rgba(123, 177, 240, 0.085) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(123, 177, 240, 0.085) 1px, transparent 1px);
-  mask-image: radial-gradient(ellipse at center, black 55%, transparent 95%);
-  -webkit-mask-image: radial-gradient(ellipse at center, black 55%, transparent 95%);
+body.is-hovering-primary .orbits--plain {
+  opacity: 1;
+}
+body.is-hovering-primary .ambient__orbits {
+  transform: scale(1.05);
 }
 body.is-hovering-primary .ambient__aura {
   opacity: 1;
@@ -1044,18 +1197,47 @@ body.is-hovering-email .ambient__aura {
     );
 }
 
-/* --- SECTOR AGENTS BAND: the leaf colours rise from the bottom of the screen --- */
-body.is-hovering-next .ambient__mesh {
-  filter: blur(42px) brightness(0.92) saturate(1.1);
-}
-body.is-hovering-next .ambient__aura {
-  opacity: 1;
-  transform: scale(1.05);
+/* --- SECTOR AGENTS BAND: the whole page takes the leaf colours ---
+   Its own layer (always painted, faded by opacity), so the colour also fades out smoothly when the pointer leaves;
+   the blue mesh steps back, the orb turns violet, the orbits turn to the spectrum and their dots start to run. */
+.ambient__spectrum {
+  position: absolute;
+  inset: -10%;
+  opacity: 0;
+  transform: scale(0.96);
   background:
-    radial-gradient(ellipse 40% 34% at 72% 96%, rgba(255, 122, 89, 0.20) 0%, transparent 65%),
-    radial-gradient(ellipse 36% 32% at 88% 80%, rgba(176, 149, 255, 0.16) 0%, transparent 65%),
-    radial-gradient(ellipse 42% 30% at 52% 100%, rgba(47, 214, 166, 0.14) 0%, transparent 65%),
-    radial-gradient(ellipse 30% 26% at 96% 100%, rgba(255, 196, 61, 0.12) 0%, transparent 65%);
+    radial-gradient(ellipse 42% 38% at 76% 84%, rgba(255, 122, 89, 0.30) 0%, transparent 70%),
+    radial-gradient(ellipse 38% 44% at 94% 46%, rgba(176, 149, 255, 0.28) 0%, transparent 70%),
+    radial-gradient(ellipse 48% 38% at 50% 100%, rgba(47, 214, 166, 0.26) 0%, transparent 70%),
+    radial-gradient(ellipse 34% 34% at 100% 100%, rgba(255, 196, 61, 0.24) 0%, transparent 70%),
+    radial-gradient(ellipse 44% 44% at 10% 74%, rgba(76, 201, 240, 0.26) 0%, transparent 70%),
+    radial-gradient(ellipse 44% 40% at 16% 16%, rgba(176, 149, 255, 0.20) 0%, transparent 70%),
+    radial-gradient(ellipse 44% 38% at 60% 8%, rgba(47, 214, 166, 0.18) 0%, transparent 70%),
+    radial-gradient(ellipse 36% 34% at 88% 10%, rgba(255, 196, 61, 0.14) 0%, transparent 70%);
+  transition: opacity 1000ms cubic-bezier(0.2, 0.8, 0.2, 1), transform 1400ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+body.is-hovering-next .ambient__spectrum {
+  opacity: 1;
+  transform: scale(1.04);
+}
+body.is-hovering-next .ambient__mesh {
+  filter: blur(46px) brightness(0.7) saturate(0.6);
+}
+body.is-hovering-next .ambient__orb {
+  filter: blur(26px) hue-rotate(95deg) saturate(1.5) brightness(1.3);
+}
+body.is-hovering-next .orbits--plain {
+  opacity: 0;
+}
+body.is-hovering-next .orbits--spectrum {
+  opacity: 0.9;
+}
+body.is-hovering-next .orbits--spectrum circle {
+  animation-play-state: running;
+}
+/* the orbits leave the avatar and ring the rosette (app.js measures the offset) */
+body.is-hovering-next .ambient__orbits {
+  transform: translate(var(--orbit-dx, 0px), var(--orbit-dy, 0px)) scale(1.06);
 }
 
 /* Subtle SVG grain overlay (data URI to keep it self-contained) */
@@ -1110,8 +1292,7 @@ body {
 .hero__headline,
 .hero__sub,
 .card,
-.email-panel,
-.site-footer {
+.email-panel {
   opacity: 0;
   animation: fadeUp 800ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
@@ -1133,7 +1314,6 @@ body {
   animation: cardArrival 900ms cubic-bezier(0.2, 0.8, 0.2, 1) 700ms forwards;
 }
 .email-panel { animation-delay: 1000ms; }
-.site-footer { animation-delay: 1150ms; }
 
 /* Card hover — lift, glow, icon micro-animation, gradient border shimmer */
 .card::before {
@@ -1393,6 +1573,20 @@ button.qxCTlb {
 
   .next {
     padding: 48px var(--gutter) 52px;
+    /* the rosette sits top left on a phone */
+    --bloom-x: calc(var(--gutter) + 84px);
+    --bloom-y: 132px;
+  }
+  .ambient__orbits {
+    top: 156px;
+  }
+  .site-footer__top {
+    padding-top: 24px;
+  }
+  .site-footer__legal {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
   }
   .next__inner {
     grid-template-columns: 1fr;
@@ -1488,8 +1682,7 @@ button.qxCTlb {
   .hero__headline,
   .hero__sub,
   .card,
-  .email-panel,
-  .site-footer {
+  .email-panel {
     opacity: 1;
   }
 

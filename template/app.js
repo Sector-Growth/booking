@@ -183,10 +183,33 @@ function wireRosetteReveal() {
   io.observe(band);
 }
 
+/* While the band is pointed at, the background orbits move from the avatar to ring the rosette. They are fixed to
+   the screen, centred at their CSS top; the offset to the rosette's centre goes in --orbit-dx / --orbit-dy. */
+function wireOrbitFollow() {
+  var band = document.querySelector('.next');
+  var rosette = band && band.querySelector('.rosette');
+  var orbits = document.querySelector('.ambient__orbits');
+  if (!band || !rosette || !orbits) return;
+  var root = document.documentElement;
+  var place = function () {
+    var r = rosette.getBoundingClientRect();
+    var top = parseFloat(getComputedStyle(orbits).top) || 0;
+    root.style.setProperty('--orbit-dx', Math.round(r.left + r.width / 2 - root.clientWidth / 2) + 'px');
+    root.style.setProperty('--orbit-dy', Math.round(r.top + r.height / 2 - top) + 'px');
+  };
+  band.addEventListener('mouseenter', place);
+  band.addEventListener('focusin', place);
+  window.addEventListener('scroll', function () {
+    if (document.body.classList.contains('is-hovering-next')) place();
+  }, { passive: true });
+}
+
 /* ===== Init ===== */
 
 // The rosette's fold runs as soon as the page is parsed (this script is deferred), before the booking scripts load.
+// The orbit listeners go on first too, so they measure before the hover class (wired at load) changes the page.
 wireRosetteReveal();
+wireOrbitFollow();
 
 window.addEventListener('load', function () {
   var config = window.BOOKING_CONFIG || {};
