@@ -66,25 +66,14 @@
     <h1 class="hero__headline">Book time with Nijat.</h1>
     <p class="hero__sub">Let's talk HubSpot strategy, onboarding, or your next project.</p>
 
-    <section class="cards " aria-label="Booking options">
-      <button type="button" class="card card--30" data-booking-id="30" data-provider="hubspot" data-hover-class="is-hovering-30">
-        <span class="card__icon" aria-hidden="true"><svg viewBox="0 0 48 48" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="20"/><path d="M24 12 V24 L32 28"/></svg></span>
-        <span class="card__eyebrow">30 MIN</span>
-        <span class="card__title">Quick intro</span>
-        <span class="card__sub">A short call on your goals and where HubSpot fits.</span>
+    <section class="cards cards--single" aria-label="Booking options">
+      <button type="button" class="card card--primary" data-booking-id="45" data-provider="hubspot" data-hover-class="is-hovering-primary">
+        <span class="card__icon" aria-hidden="true"><svg viewBox="0 0 48 48" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="10" width="36" height="32" rx="3"/><path d="M6 20 H42"/><path d="M16 6 V14"/><path d="M32 6 V14"/><circle cx="24" cy="32" r="4"/></svg></span>
+        <span class="card__eyebrow">45 MIN</span>
+        <span class="card__title">HubSpot discussion</span>
+        <span class="card__sub">Your HubSpot setup, your goals, and where we can help.</span>
         <span class="card__cta">
-          Book 30 minutes
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12 H19 M13 6 L19 12 L13 18"/></svg>
-        </span>
-      </button>
-
-      <button type="button" class="card card--60" data-booking-id="60" data-provider="hubspot" data-hover-class="is-hovering-60">
-        <span class="card__icon" aria-hidden="true"><svg viewBox="0 0 48 48" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M24 6 L42 16 L24 26 L6 16 Z"/><path d="M6 24 L24 34 L42 24"/><path d="M6 32 L24 42 L42 32"/></svg></span>
-        <span class="card__eyebrow">1 HOUR</span>
-        <span class="card__title">Strategy session</span>
-        <span class="card__sub">A full hour on your HubSpot setup, your roadmap and the next steps.</span>
-        <span class="card__cta">
-          Book 1 hour
+          Book 45 minutes
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12 H19 M13 6 L19 12 L13 18"/></svg>
         </span>
       </button>
@@ -108,18 +97,11 @@
     <p>Powered by HubSpot &nbsp;·&nbsp; Sector Growth &copy; 2026</p>
   </footer>
 
-  <div class="modal" id="modal-30" aria-hidden="true">
+  <div class="modal" id="modal-45" aria-hidden="true">
     <div class="modal__backdrop"></div>
     <div class="modal__content">
       <button class="modal__close" aria-label="Close">&times;</button>
-      <div class="meetings-iframe-container" data-src="https://meetings.hubspot.com/nijat-abdulkarimli/nijat-30-min?embed=true"></div>
-    </div>
-  </div>
-  <div class="modal" id="modal-60" aria-hidden="true">
-    <div class="modal__backdrop"></div>
-    <div class="modal__content">
-      <button class="modal__close" aria-label="Close">&times;</button>
-      <div class="meetings-iframe-container" data-src="https://meetings.hubspot.com/sectorgrowth/nijat?embed=true"></div>
+      <div class="meetings-iframe-container" data-src="https://meet.sectorgrowth.com/meetings/sectorgrowth/hubspot-discussion?embed=true"></div>
     </div>
   </div>
 
@@ -130,23 +112,13 @@
   "bookings": [
     {
       "provider": "hubspot",
-      "duration": "30",
-      "label": "Quick intro",
-      "description": "A short call on your goals and where HubSpot fits.",
-      "ctaLabel": "Book 30 minutes",
-      "url": "https://meetings.hubspot.com/nijat-abdulkarimli/nijat-30-min",
-      "embedUrl": "https://meetings.hubspot.com/nijat-abdulkarimli/nijat-30-min?embed=true",
-      "icon": "clock"
-    },
-    {
-      "provider": "hubspot",
-      "duration": "60",
-      "label": "Strategy session",
-      "description": "A full hour on your HubSpot setup, your roadmap and the next steps.",
-      "ctaLabel": "Book 1 hour",
-      "url": "https://meetings.hubspot.com/sectorgrowth/nijat",
-      "embedUrl": "https://meetings.hubspot.com/sectorgrowth/nijat?embed=true",
-      "icon": "layers"
+      "duration": "45",
+      "label": "HubSpot discussion",
+      "description": "Your HubSpot setup, your goals, and where we can help.",
+      "ctaLabel": "Book 45 minutes",
+      "url": "https://meet.sectorgrowth.com/meetings/sectorgrowth/hubspot-discussion",
+      "embedUrl": "https://meet.sectorgrowth.com/meetings/sectorgrowth/hubspot-discussion?embed=true",
+      "icon": "calendar"
     }
   ]
 };

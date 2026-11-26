@@ -197,8 +197,8 @@ function buildCardHtml(booking, index, total) {
   }
 
   var iconSvg = ICONS[booking.icon] || ICONS.calendar;
-  var eyebrow = booking.duration === '30' ? '30 MIN'
-    : booking.duration === '60' ? '1 HOUR'
+  var eyebrow = booking.duration === '60' ? '1 HOUR'
+    : /^\d+$/.test(booking.duration) ? booking.duration + ' MIN'
     : 'SESSION';
 
   return '      <button type="button" class="' + cardClass + '" data-booking-id="' + escapeHtml(booking.duration) + '" data-provider="' + escapeHtml(booking.provider) + '" data-hover-class="' + hoverClass + '">\n'

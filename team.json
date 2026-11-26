@@ -71,23 +71,13 @@
     "bookings": [
       {
         "provider": "hubspot",
-        "duration": "30",
-        "label": "Quick intro",
-        "description": "A short call on your goals and where HubSpot fits.",
-        "ctaLabel": "Book 30 minutes",
-        "url": "https://meetings.hubspot.com/nijat-abdulkarimli/nijat-30-min",
-        "embedUrl": "https://meetings.hubspot.com/nijat-abdulkarimli/nijat-30-min?embed=true",
-        "icon": "clock"
-      },
-      {
-        "provider": "hubspot",
-        "duration": "60",
-        "label": "Strategy session",
-        "description": "A full hour on your HubSpot setup, your roadmap and the next steps.",
-        "ctaLabel": "Book 1 hour",
-        "url": "https://meetings.hubspot.com/sectorgrowth/nijat",
-        "embedUrl": "https://meetings.hubspot.com/sectorgrowth/nijat?embed=true",
-        "icon": "layers"
+        "duration": "45",
+        "label": "HubSpot discussion",
+        "description": "Your HubSpot setup, your goals, and where we can help.",
+        "ctaLabel": "Book 45 minutes",
+        "url": "https://meet.sectorgrowth.com/meetings/sectorgrowth/hubspot-discussion",
+        "embedUrl": "https://meet.sectorgrowth.com/meetings/sectorgrowth/hubspot-discussion?embed=true",
+        "icon": "calendar"
       }
     ]
   }
