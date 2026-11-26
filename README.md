@@ -45,7 +45,7 @@ The booking cards stay the page's job. Everything else sits under them, and all 
 - **The Sector Agents band:** "In 2027, HubSpot runs on agents. We're building them." linking to agents.sectorgrowth.com. Its rosette is drawn by `rosetteSvg()` in `build.js` with the same leaf geometry and colours as that site (`sector-agents/src/lib/rosette.ts`); `app.js` folds it while it is below the screen and opens it once when it scrolls into view (not under reduced motion).
 
 - **The close:** the band and the footer share one dark ground (`.closing`). The footer is the Sector Growth logo, links to sectorgrowth.com, Privacy and Terms, the copyright line (year set at build) and the scheduling provider.
-- **Background:** dotted orbits round the avatar (`.ambient__orbits`, in the template) replaced the square grid. Pointing at the band blooms the rosette out, washes the page in the leaf colours (`.ambient__spectrum`), and moves the orbits to ring the rosette in those colours, their dots running both ways (`wireOrbitFollow()` in `app.js` measures the offset).
+- **Pointing at the band** blooms the rosette out and lights the whole close (band and footer, `.closing::after`) in the leaf colours, with a spectrum line along its top edge. The rest of the page keeps its own background.
 
 The root page (`buildRootPage`) has none of this yet.
 
