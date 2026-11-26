@@ -166,7 +166,27 @@ function wireHoverAmbience() {
   });
 }
 
+/* ===== Sector Agents band: the rosette opens when it comes into view ===== */
+
+function wireRosetteReveal() {
+  var band = document.querySelector('.next');
+  if (!band || !('IntersectionObserver' in window)) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  // Fold it only while it is still below the screen, so nobody watches it close; already on screen, it stays open.
+  if (band.getBoundingClientRect().top < window.innerHeight) return;
+  band.classList.add('is-waiting');
+  var io = new IntersectionObserver(function (entries) {
+    if (!entries.some(function (e) { return e.isIntersecting; })) return;
+    io.disconnect();
+    requestAnimationFrame(function () { band.classList.remove('is-waiting'); });
+  }, { threshold: 0.4 });
+  io.observe(band);
+}
+
 /* ===== Init ===== */
+
+// The rosette's fold runs as soon as the page is parsed (this script is deferred), before the booking scripts load.
+wireRosetteReveal();
 
 window.addEventListener('load', function () {
   var config = window.BOOKING_CONFIG || {};

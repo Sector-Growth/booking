@@ -47,11 +47,10 @@
   padding: 0;
 }
 
-html, body {
-  height: 100%;
-}
-
+/* The page now runs past one screen: the canvas is night blue, so overscroll and anything below the body never
+   shows white, and the body grows with its content (it was pinned to 100% height). */
 html {
+  background: var(--bg-darker);
   -webkit-text-size-adjust: 100%;
   text-rendering: optimizeLegibility;
 }
@@ -128,6 +127,58 @@ body {
   color: var(--text-primary);
   border-color: var(--border-strong);
   background: rgba(255, 255, 255, 0.03);
+}
+
+.site-header__end {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+/* The Elite tier, beside the site link: HubSpot's badge and its name, no box */
+.elite-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 12px;
+  transition: opacity 200ms ease;
+}
+
+.elite-mark img {
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+  /* The badge's own ground is a dark teal; a hairline of light keeps its edge on the navy */
+  filter: drop-shadow(0 0 0.6px rgba(255, 255, 255, 0.55)) drop-shadow(0 6px 14px rgba(0, 0, 0, 0.45));
+}
+
+.elite-mark__text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.elite-mark__text b {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.elite-mark__text span {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  transition: color 200ms ease;
+}
+
+.elite-mark:hover .elite-mark__text span {
+  color: var(--text-primary);
+}
+
+.elite-mark:focus-visible,
+.site-header__link:focus-visible {
+  outline: 2px solid var(--accent-cyan);
+  outline-offset: 4px;
 }
 
 /* Hero */
@@ -500,6 +551,271 @@ body.modal-open {
   overflow: hidden;
 }
 
+/* ---------- Below the booking ---------- */
+
+/* Accreditations: one quiet row, the same width as the cards */
+.creds {
+  position: relative;
+  z-index: 2;
+  width: calc(100% - 2 * var(--gutter));
+  max-width: 744px;
+  margin: clamp(40px, 6vh, 64px) auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.creds__h {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+.creds__list {
+  list-style: none;
+  display: flex;
+  gap: 26px;
+}
+
+.creds__list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.creds__list img {
+  width: 46px;
+  height: auto;
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.4));
+}
+
+.creds__list span {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--text-primary);
+  max-width: 9.5em;
+}
+
+/* The rest of Sector Growth: three links, each a small tile */
+.explore {
+  position: relative;
+  z-index: 2;
+  width: calc(100% - 2 * var(--gutter));
+  max-width: 744px;
+  margin: 28px auto 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.explore__link {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 18px 18px 16px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.018);
+  transition: border-color 240ms ease, background 240ms ease, transform 240ms ease;
+}
+
+.explore__link:hover {
+  border-color: rgba(107, 207, 238, 0.35);
+  background: rgba(107, 207, 238, 0.04);
+  transform: translateY(-2px);
+}
+
+.explore__link:focus-visible {
+  outline: 2px solid var(--accent-cyan);
+  outline-offset: 3px;
+}
+
+.explore__icon {
+  color: var(--accent-cyan);
+  margin-bottom: 8px;
+}
+
+.explore__title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.explore__sub {
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--text-muted);
+  flex-grow: 1;
+}
+
+.explore__host {
+  margin-top: 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  color: rgba(148, 163, 184, 0.8);
+  transition: color 240ms ease;
+}
+
+.explore__link:hover .explore__host {
+  color: var(--accent-cyan);
+}
+
+/* What comes next: Sector Agents. The one loud thing below the booking. It leaves the card column for a full-width
+   band, borrows the Sector Agents face (Manrope 800) and its leaf colours, and the whole band opens the site. */
+.next {
+  position: relative;
+  z-index: 2;
+  margin-top: clamp(56px, 9vh, 88px);
+  padding: clamp(48px, 7vh, 72px) var(--gutter);
+  background:
+    radial-gradient(420px 320px at calc(50% + 250px) 50%, rgba(255, 122, 89, 0.10) 0%, transparent 70%),
+    linear-gradient(180deg, rgba(3, 8, 18, 0.35) 0%, rgba(3, 8, 18, 0.72) 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.next__inner {
+  max-width: 744px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 240px;
+  align-items: center;
+  gap: 48px;
+}
+
+.next__h {
+  font-family: 'Manrope', var(--font-display);
+  font-weight: 800;
+  font-size: clamp(32px, 3.9vw, 46px);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  color: #FFFFFF;
+  text-wrap: balance;
+}
+
+.next__sub {
+  margin-top: 16px;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--text-muted);
+  max-width: 44ch;
+}
+
+.next__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 26px;
+  padding: 12px 20px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  font-size: 15px;
+  font-weight: 600;
+  color: #FFFFFF;
+  transition: background 260ms ease, color 260ms ease, border-color 260ms ease;
+}
+
+/* The whole band is the link's target; the link's name stays "See Sector Agents" */
+.next__cta::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.next:hover .next__cta,
+.next__cta:focus-visible {
+  background: #FFFFFF;
+  border-color: #FFFFFF;
+  color: var(--bg-deep);
+}
+
+.next__cta:focus-visible {
+  outline: 2px solid #FFFFFF;
+  outline-offset: 4px;
+}
+
+.next__cta svg {
+  transition: transform 260ms ease;
+}
+
+.next:hover .next__cta svg {
+  transform: translate(2px, -2px);
+}
+
+/* The rosette */
+.rosette {
+  width: 240px;
+  height: 240px;
+  overflow: visible;
+}
+
+.rosette__ring {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.2);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-dasharray: 0.5 14;
+}
+
+.leaf {
+  transform-box: fill-box;
+  transform-origin: 0 0; /* the leaf's sharp corner, at the hub */
+  transition: transform 1100ms cubic-bezier(0.2, 0.8, 0.2, 1) calc(var(--i) * 70ms);
+}
+
+/* On a dark ground the agents site screens its leaves, so where two overlap the colour gets lighter */
+.leaf__f {
+  mix-blend-mode: screen;
+  opacity: 0.92;
+}
+
+.leaf__in {
+  fill: #FFFFFF;
+  opacity: 0.08;
+}
+
+.leaf--watch { fill: #4CC9F0; }
+.leaf--act   { fill: #2FD6A6; }
+.leaf--audit { fill: #FFC43D; }
+.leaf--guide { fill: #B095FF; }
+
+.rosette__hub {
+  fill: #FF7A59;
+  transition: filter 500ms ease;
+}
+
+.rosette__name {
+  fill: #FFFFFF;
+  font-family: 'Manrope', var(--font-display);
+  font-weight: 800;
+  font-size: 31px;
+  letter-spacing: -0.02em;
+}
+
+/* Folded into the hub until the band comes into view (app.js); then it opens once, leaf by leaf */
+.next.is-waiting .leaf {
+  transform: scale(0.1) rotate(-60deg);
+}
+
+/* Pointing at the band: the leaves lean round a little, the hub warms */
+.next:hover .leaf,
+.next:focus-within .leaf {
+  transform: rotate(8deg) scale(1.03);
+  transition-delay: 0ms;
+}
+
+.next:hover .rosette__hub,
+.next:focus-within .rosette__hub {
+  filter: drop-shadow(0 0 18px rgba(255, 122, 89, 0.7));
+}
+
 /* Footer */
 .site-footer {
   position: relative;
@@ -728,6 +1044,20 @@ body.is-hovering-email .ambient__aura {
     );
 }
 
+/* --- SECTOR AGENTS BAND: the leaf colours rise from the bottom of the screen --- */
+body.is-hovering-next .ambient__mesh {
+  filter: blur(42px) brightness(0.92) saturate(1.1);
+}
+body.is-hovering-next .ambient__aura {
+  opacity: 1;
+  transform: scale(1.05);
+  background:
+    radial-gradient(ellipse 40% 34% at 72% 96%, rgba(255, 122, 89, 0.20) 0%, transparent 65%),
+    radial-gradient(ellipse 36% 32% at 88% 80%, rgba(176, 149, 255, 0.16) 0%, transparent 65%),
+    radial-gradient(ellipse 42% 30% at 52% 100%, rgba(47, 214, 166, 0.14) 0%, transparent 65%),
+    radial-gradient(ellipse 30% 26% at 96% 100%, rgba(255, 196, 61, 0.12) 0%, transparent 65%);
+}
+
 /* Subtle SVG grain overlay (data URI to keep it self-contained) */
 .ambient__grain {
   position: absolute;
@@ -773,6 +1103,7 @@ body {
 
 /* Stagger entry */
 .site-header__logo,
+.elite-mark,
 .site-header__link,
 .hero__avatar,
 .hero__eyebrow,
@@ -786,6 +1117,7 @@ body {
 }
 
 .site-header__logo  { animation-delay: 50ms; }
+.elite-mark         { animation-delay: 120ms; }
 .site-header__link  { animation-delay: 150ms; }
 .hero__avatar       { animation-delay: 200ms; }
 .hero__eyebrow      { animation-delay: 300ms; }
@@ -956,16 +1288,121 @@ button.qxCTlb {
 
 /* ---------- 7. Responsive ---------- */
 
+/* One booking option (Sean, Nijat): the card spans the column like everything under it, laid out in a row */
+@media (min-width: 721px) {
+  .cards--single {
+    max-width: 744px;
+  }
+  .cards--single .card--primary {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    column-gap: 22px;
+    row-gap: 6px;
+    align-items: center;
+    padding: 26px 28px;
+  }
+  .cards--single .card--primary .card__icon {
+    grid-column: 1;
+    grid-row: 1 / 4;
+    margin: 0;
+  }
+  .cards--single .card--primary .card__eyebrow,
+  .cards--single .card--primary .card__title,
+  .cards--single .card--primary .card__sub {
+    grid-column: 2;
+  }
+  .cards--single .card--primary .card__cta {
+    grid-column: 3;
+    grid-row: 1 / 4;
+    margin-top: 0;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 860px) {
+  .creds {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+}
+
 @media (max-width: 720px) {
   .site-header {
-    padding: 20px;
+    padding: 20px 16px;
   }
   .site-header__logo img {
     height: 32px;
   }
+  /* The site link moves to the tiles at the bottom; the Elite mark keeps the corner */
   .site-header__link {
+    display: none;
+  }
+  .elite-mark {
+    gap: 8px;
+  }
+  .elite-mark img {
+    width: 36px;
+    height: 36px;
+  }
+  .elite-mark__text b {
+    font-size: 12.5px;
+  }
+  .elite-mark__text span {
     font-size: 11px;
-    padding: 6px 12px;
+  }
+
+  .creds,
+  .explore {
+    max-width: 420px;
+  }
+  /* Three shields in a row, each name under its shield */
+  .creds__list {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .creds__list li {
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
+  }
+  .creds__list img {
+    width: 48px;
+  }
+  .creds__list span {
+    font-size: 12px;
+  }
+
+  .explore {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .explore__link {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 14px;
+    row-gap: 2px;
+    padding: 14px 16px;
+  }
+  .explore__icon {
+    grid-row: 1 / 4;
+    margin: 2px 0 0;
+  }
+
+  .next {
+    padding: 48px var(--gutter) 52px;
+  }
+  .next__inner {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    max-width: 420px;
+  }
+  .next .rosette {
+    order: -1;
+    width: 168px;
+    height: 168px;
   }
 
   .hero {
@@ -1044,6 +1481,7 @@ button.qxCTlb {
   }
 
   .site-header__logo,
+  .elite-mark,
   .site-header__link,
   .hero__avatar,
   .hero__eyebrow,
@@ -1055,7 +1493,16 @@ button.qxCTlb {
     opacity: 1;
   }
 
-  .card:hover {
+  .card:hover,
+  .explore__link:hover {
+    transform: none;
+  }
+
+  /* The rosette stays open and still */
+  .next .leaf,
+  .next.is-waiting .leaf,
+  .next:hover .leaf,
+  .next:focus-within .leaf {
     transform: none;
   }
 }

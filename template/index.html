@@ -28,7 +28,7 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   {{providerStyles}}
 
@@ -53,9 +53,16 @@
     <a class="site-header__logo" href="https://sectorgrowth.com" target="_blank" rel="noopener" aria-label="Sector Growth">
       <img src="../assets/logo.webp" alt="Sector Growth" width="180" height="48">
     </a>
-    <a class="site-header__link" href="https://sectorgrowth.com" target="_blank" rel="noopener">
-      sectorgrowth.com <span aria-hidden="true">↗</span>
-    </a>
+    <div class="site-header__end">
+      <!-- The Elite tier, on the first screen; it opens Sector Growth's listing in HubSpot's Solutions Directory -->
+      <a class="elite-mark" href="https://ecosystem.hubspot.com/marketplace/solutions/sector" target="_blank" rel="noopener">
+        <img src="../assets/badges/hubspot-elite-solutions-partner.svg" alt="" width="50" height="50">
+        <span class="elite-mark__text"><b>HubSpot</b> <span>Elite Solutions Partner</span></span>
+      </a>
+      <a class="site-header__link" href="https://sectorgrowth.com" target="_blank" rel="noopener">
+        sectorgrowth.com <span aria-hidden="true">↗</span>
+      </a>
+    </div>
   </header>
 
   <main class="hero">
@@ -72,6 +79,35 @@
 
 {{emailPanel}}
   </main>
+
+  <!-- Below the booking: the accreditations, the rest of Sector Growth, then what comes next (Sector Agents).
+       Booking stays the page's job; everything here sits under it and stays quieter, except the one band at the end. -->
+  <section class="creds" aria-labelledby="creds-h">
+    <h2 class="creds__h" id="creds-h">Accredited by HubSpot</h2>
+    <ul class="creds__list">
+      <li><img src="../assets/badges/hubspot-crm-implementation-2x.webp" alt="HubSpot CRM Implementation Accreditation" width="52" height="58" loading="lazy"><span aria-hidden="true">CRM Implementation</span></li>
+      <li><img src="../assets/badges/hubspot-custom-integration-2x.webp" alt="HubSpot Custom Integration Accreditation" width="52" height="58" loading="lazy"><span aria-hidden="true">Custom Integration</span></li>
+      <li><img src="../assets/badges/hubspot-crm-data-migration-2x.webp" alt="HubSpot CRM Data Migration Accreditation" width="52" height="58" loading="lazy"><span aria-hidden="true">CRM Data Migration</span></li>
+    </ul>
+  </section>
+
+  <nav class="explore" aria-label="More from Sector Growth">
+{{exploreLinks}}
+  </nav>
+
+  <section class="next" aria-labelledby="next-h" data-hover-class="is-hovering-next">
+    <div class="next__inner">
+      <div class="next__text">
+        <h2 class="next__h" id="next-h">In 2027, HubSpot runs on agents. We&rsquo;re building them.</h2>
+        <p class="next__sub">Sector Agents are AI agents for HubSpot that you hire for an outcome. Take one agent, or a kit of agents that work together.</p>
+        <a class="next__cta" href="https://agents.sectorgrowth.com/" target="_blank" rel="noopener">
+          See Sector Agents
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 L17 7 M9 7 H17 V15"/></svg>
+        </a>
+      </div>
+      {{rosette}}
+    </div>
+  </section>
 
   <footer class="site-footer">
     <p>Powered by {{footerProvider}} &nbsp;·&nbsp; Sector Growth &copy; 2026</p>

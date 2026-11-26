@@ -54,7 +54,78 @@ const ARROW_SVG = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" s
 // A person glyph on the brand gradient, for anyone in team.json without a `photo` (never initials).
 const GLYPH_SVG = '<svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="38" r="17"/><path d="M16 100c2-24 17-36 34-36s32 12 34 36z"/></svg>';
 
-const MAIL_SVG = '<svg viewBox="0 0 48 48" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="10" width="36" height="28" rx="3"/><path d="M6 14 L24 26 L42 14"/></svg>';
+// ---------------------------------------------------------------------------
+// Below the booking: the rest of Sector Growth, and the Sector Agents band
+// ---------------------------------------------------------------------------
+
+// The three link tiles under the accreditations. Icons are 24px line drawings in the card icons' style.
+const EXPLORE = [
+  {
+    href: 'https://sectorgrowth.com/',
+    host: 'sectorgrowth.com',
+    title: 'Sector Growth',
+    sub: 'Our HubSpot services, from onboarding to integrations.',
+    // the Sector mark's leaf: one sharp corner, one large rounded corner
+    icon: '<path d="M4 4 H16 Q20 4 20 8 V11 A9 9 0 0 1 11 20 H8 Q4 20 4 16 Z"/>',
+  },
+  {
+    href: 'https://apps.sectorgrowth.com/',
+    host: 'apps.sectorgrowth.com',
+    title: 'Integrations directory',
+    sub: 'How your systems connect to HubSpot, and what it takes.',
+    icon: '<path d="M9 3 V8 M15 3 V8"/><path d="M6 8 H18 V11 A6 6 0 0 1 6 11 Z"/><path d="M12 17 V21"/>',
+  },
+  {
+    href: 'https://portals.sectorgrowth.com/',
+    host: 'portals.sectorgrowth.com',
+    title: 'Custom portals',
+    sub: 'Portals for your customers, backed by HubSpot.',
+    icon: '<rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 9 H21"/><circle cx="12" cy="14" r="2.2"/>',
+  },
+];
+
+function buildExploreLinks() {
+  return EXPLORE.map(function (l) {
+    return '    <a class="explore__link" href="' + l.href + '" target="_blank" rel="noopener">\n'
+      + '      <span class="explore__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + l.icon + '</svg></span>\n'
+      + '      <span class="explore__title">' + escapeHtml(l.title) + '</span>\n'
+      + '      <span class="explore__sub">' + escapeHtml(l.sub) + '</span>\n'
+      + '      <span class="explore__host">' + escapeHtml(l.host) + ' <span aria-hidden="true">↗</span></span>\n'
+      + '    </a>';
+  }).join('\n');
+}
+
+// The Sector Agents rosette, small: the same leaf geometry as agents.sectorgrowth.com (sector-agents src/lib/rosette.ts),
+// six leaves round the HubSpot hub, coloured by the kind of work, in the order of the Salesforce Exit Kit in that page's hero.
+// Neighbouring leaves overlap, the way the site draws agents sharing what they know. Always decorative.
+const ROSETTE_ROLES = ['act', 'audit', 'act', 'watch', 'act', 'guide'];
+
+function leafPath(scale) {
+  var f = function (n) { return n.toFixed(1); };
+  var s = 196 * scale, b = 118 * scale, r = 54 * scale;
+  return 'M0 0L' + f(s - r) + ' 0Q' + f(s) + ' 0 ' + f(s) + ' ' + f(r) + 'L' + f(s) + ' ' + f(s - b)
+    + 'A' + f(b) + ' ' + f(b) + ' 0 0 1 ' + f(s - b) + ' ' + f(s) + 'L' + f(r) + ' ' + f(s) + 'Q0 ' + f(s) + ' 0 ' + f(s - r) + 'Z';
+}
+
+function rosetteSvg() {
+  var outer = leafPath(1);
+  var inner = leafPath(0.6); // the lighter inner leaf, as on agents.sectorgrowth.com
+  var n = ROSETTE_ROLES.length;
+  var leaves = ROSETTE_ROLES.map(function (role, i) {
+    var rot = -90 + (i * 360) / n - 45; // leafPath points at 45deg; turn it to its place round the hub
+    return '<g transform="rotate(' + rot + ')"><g class="leaf leaf--' + role + '" style="--i:' + i + '">'
+      + '<path class="leaf__f" d="' + outer + '"/><path class="leaf__in" d="' + inner + '"/></g></g>';
+  }).join('');
+  return '<svg class="rosette" viewBox="0 0 600 600" width="240" height="240" aria-hidden="true" focusable="false">'
+    + '<g transform="translate(300 300)">'
+    + '<circle class="rosette__ring" r="262"/>'
+    + leaves
+    + '<circle class="rosette__hub" r="74"/>'
+    + '<text class="rosette__name" y="10" text-anchor="middle">HubSpot</text>'
+    + '</g></svg>';
+}
+
+const MAIL_SVG ='<svg viewBox="0 0 48 48" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="10" width="36" height="28" rx="3"/><path d="M6 14 L24 26 L42 14"/></svg>';
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -473,6 +544,8 @@ async function main() {
       '{{robots}}': ROBOTS_PERSON,
       '{{canonical}}': ORIGIN + '/' + person.slug + '/',
       '{{jsonLd}}': jsonLdScript(entity, personGraph(entity, person)),
+      '{{exploreLinks}}': buildExploreLinks(),
+      '{{rosette}}': rosetteSvg(),
     };
 
     var html = template;

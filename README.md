@@ -35,6 +35,17 @@ The site follows Sector Growth's SEO/AEO standard (`Sector-Growth/seo-aeo-kit`).
 - After a push that changes the root page, ping IndexNow from `../seo-aeo-kit`: `INDEXNOW_KEY=<INDEXNOW_KEY in build.js> node snippets/indexnow-ping.mjs --host book.sectorgrowth.com`.
 - GitHub Pages cannot set response headers, so this host has no HSTS, CSP or `X-Content-Type-Options`. Moving it to Cloudflare Pages (with the kit's `_headers`) would add them.
 
+## Under the booking (every person page)
+
+The booking cards stay the page's job. Everything else sits under them, and all of it is shared by every person page:
+
+- **Header:** HubSpot's Elite Solutions Partner badge, linking to Sector Growth's listing in HubSpot's Solutions Directory.
+- **Accredited by HubSpot:** CRM Implementation, Custom Integration, CRM Data Migration (the house ranking after Elite). Badge files in `assets/badges/` are copies from `sectorgrowth-site/public/assets/badges/`; a credential change goes there first (see the badge-surfaces list kept with the site).
+- **Three link tiles** (`EXPLORE` in `build.js`): sectorgrowth.com, apps.sectorgrowth.com (integrations directory), portals.sectorgrowth.com (custom portals).
+- **The Sector Agents band:** "In 2027, HubSpot runs on agents. We're building them." linking to agents.sectorgrowth.com. Its rosette is drawn by `rosetteSvg()` in `build.js` with the same leaf geometry and colours as that site (`sector-agents/src/lib/rosette.ts`); `app.js` folds it while it is below the screen and opens it once when it scrolls into view (not under reduced motion).
+
+The root page (`buildRootPage`) has none of this yet.
+
 ## Adding a New Person
 
 1. Add an entry to `team.json` (see existing entries for the schema)
@@ -50,7 +61,7 @@ The site follows Sector Growth's SEO/AEO standard (`Sector-Growth/seo-aeo-kit`).
 - `template/index.html` — shared HTML template with `{{placeholders}}`
 - `template/styles.css` — shared CSS (ambient effects, layout, modal, responsive)
 - `template/app.js` — shared JS (provider registry, click delegation, hover moods, modal)
-- `assets/` — shared static assets (logo, favicon, photos)
+- `assets/` — shared static assets (logo, favicon, photos, HubSpot badges)
 - `docs/` — build output, deployed via GitHub Pages
 
 ## Booking Providers
